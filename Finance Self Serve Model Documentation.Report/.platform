@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Finance Self Serve Model Documentation"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c963e391-a661-bebb-42d7-f619645500bb"
+  }
+}

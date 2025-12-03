@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Finance Self Serve Model Documentation"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "b8a9fb5b-2c43-bbb8-4be7-c175ac739d00"
+  }
+}

@@ -1,0 +1,73 @@
+table Tables
+	lineageTag: d3c715fe-b635-4654-90ff-3ec29b781073
+
+	measure 'Table Count' = DISTINCTCOUNT([ID])
+		formatString: 0
+		lineageTag: e61aafb8-938e-498e-8329-f23fbcfccd33
+
+	column ID
+		dataType: double
+		lineageTag: 77568638-9971-43ef-8600-e63824deffae
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ModelID
+		dataType: double
+		lineageTag: 022924db-e61d-40f8-ba2b-cfe4a44db0eb
+		summarizeBy: count
+		sourceColumn: ModelID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Table Name'
+		dataType: string
+		lineageTag: 04864b2f-133b-40cf-8e33-83c9632e2426
+		summarizeBy: none
+		sourceColumn: Table Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Table Data Category'
+		dataType: string
+		lineageTag: 12287026-fc06-470b-aca1-b6ace8e5fd16
+		summarizeBy: none
+		sourceColumn: Table Data Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Table Description'
+		dataType: string
+		lineageTag: 3a68631b-112f-45a1-81e4-84ffe9f132e2
+		summarizeBy: none
+		sourceColumn: Table Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Table Is Hidden'
+		dataType: boolean
+		lineageTag: ef808f26-b65f-4872-a6bc-c2db4540a388
+		summarizeBy: none
+		sourceColumn: Table Is Hidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Tables = m
+		mode: import
+		source =
+				let
+				     Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [ModelID], [Name], [DataCategory], [Description], [IsHidden] from $SYSTEM.TMSCHEMA_TABLES"]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"DataCategory", "Table Data Category"}, {"IsHidden", "Table Is Hidden"}, {"Name", "Table Name"}, {"Description", "Table Description"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each true)
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_QueryRelationships = {"columnCount":6,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Tables/Source.{ID,0}","Section1/Tables/Source.{ModelID,1}","Section1/Tables/Source.{Name,2}","Section1/Tables/Source.{DataCategory,3}","Section1/Tables/Source.{Description,4}","Section1/Tables/Source.{IsHidden,5}"],"ColumnCount":6,"KeyColumnNames":[],"ColumnIdentities":["Section1/Tables/Source.{ID,0}","Section1/Tables/Source.{ModelID,1}","Section1/Tables/Source.{Name,2}","Section1/Tables/Source.{DataCategory,3}","Section1/Tables/Source.{Description,4}","Section1/Tables/Source.{IsHidden,5}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

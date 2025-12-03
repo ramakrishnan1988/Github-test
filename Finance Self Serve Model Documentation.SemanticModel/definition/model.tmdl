@@ -1,0 +1,82 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup Staging
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'DataModel Analysis'
+
+	annotation PBI_QueryGroupOrder = 2
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Catalog","Tables","Table Permissions","Roles","Role Memberships","Relationships","TableSourceStage","Model","Hierarchy Levels","KPIs","Data Sources","Columns","Column Storage","Measure","Hierarchies","To Table","To Column","Perspectives","Table Sources","HierarchyLevelsStage","Columns Stage","Crossfilter","DataTypes","Cardinality","SummarizeBy","PerspectiveItemsStage","AAS Instance","Model Name","VA_tables","VA_Columns Cardinality","VA_columns","VA_column segments","VA_columns hierarchies","VA_User Hierarchies","VA_Relationship Size","VA_Table Names","VA_Measure Expressions","VA_columns metadata","VA_Tables metadata","VA_Relationships","VA_Table Expressions","DB Size","CalculationItemsStage","CalculationGroupsStage","Calculation Groups","TablesStage"]
+
+annotation __TEdtr = 1
+
+ref table Catalog
+ref table Tables
+ref table 'Table Permissions'
+ref table Roles
+ref table 'Role Memberships'
+ref table Relationships
+ref table Model
+ref table 'Hierarchy Levels'
+ref table KPIs
+ref table Columns
+ref table Measure
+ref table DataTypes
+ref table 'To Table'
+ref table 'To Column'
+ref table Crossfilter
+ref table Cardinality
+ref table SummarizeBy
+ref table Perspectives
+ref table 'Table Sources'
+ref table DateTableTemplate_2dc158ba-4ec2-488a-becd-7caf137c796a
+ref table LocalDateTable_06da083f-598a-4b1b-b756-21bb1f7d803b
+ref table LocalDateTable_22e0d637-044c-4412-b97f-a865f7c00915
+ref table LocalDateTable_8dccb478-cf6b-4fda-afc6-64656d0a0bbe
+ref table LocalDateTable_89cf5bcc-2f5a-4cea-8d92-5186bb7b9598
+ref table LocalDateTable_8531ca4f-fc01-49da-8c21-3e3ae2949a2d
+ref table LocalDateTable_c5e3479e-e2dc-4604-9df3-b04e8d352b3d
+ref table LocalDateTable_991b3f83-9908-4aba-9f67-e5c0f182337d
+ref table LocalDateTable_21cc2207-5c37-4f39-9290-50ef14feece4
+ref table LocalDateTable_dee79de7-c875-4a04-807d-fbd4c32605f8
+ref table LocalDateTable_5a8794a7-778a-4cc1-9e62-c488749ae2cc
+ref table LocalDateTable_11e08cbf-820b-40c5-b6f8-59b3a6b50b4c
+ref table LocalDateTable_b4e70edb-b3f3-42b4-93a6-3c09c4d99bec
+ref table LocalDateTable_6fc9ffa8-4e8a-43cd-a85b-892550b816e0
+ref table LocalDateTable_06f3aa35-9494-4ff5-9e33-a681676a973a
+ref table LocalDateTable_03a6bf26-4f31-4d07-b4d4-8762e84a3384
+ref table LocalDateTable_edcf82a5-8def-424b-95a6-17da66e43adf
+ref table LocalDateTable_d6c19757-fc93-47b1-8d41-3137f6d86c6a
+ref table VA_tables
+ref table 'VA_Columns Cardinality'
+ref table VA_columns
+ref table 'VA_column segments'
+ref table 'VA_columns hierarchies'
+ref table 'VA_User Hierarchies'
+ref table 'VA_Relationship Size'
+ref table 'VA_Table Names'
+ref table 'VA_Measure Expressions'
+ref table 'VA_columns metadata'
+ref table 'VA_Tables metadata'
+ref table VA_Relationships
+ref table 'VA_Table Expressions'
+ref table 'DB Size'
+ref table 'Data Sources'
+ref table LocalDateTable_a1c4a5de-8f81-4240-b17f-f32a4199bfa4
+ref table LocalDateTable_818152e6-84d0-41e7-b245-823c6d794360
+ref table 'AAS Instance'
+ref table 'Model Name'
+ref table 'Calculation Groups'
+
+ref cultureInfo en-US
+

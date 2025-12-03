@@ -1,0 +1,121 @@
+expression TableSourceStage =
+		let
+		    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [TableID], [Name], [Description], [DataSourceID], [QueryDefinition], [Type], [Mode], ModifiedTime from $SYSTEM.TMSCHEMA_PARTITIONS"]),
+		    #"Renamed Columns" = Table.RenameColumns(Source,{{"ID", "ID"}, {"DataSourceID", "Data Source ID"}, {"QueryDefinition", "Query Definition"}, {"ModifiedTime", "Modified Time"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: 434af4cc-e962-4a32-bdcf-5c1541a3efb0
+	queryGroup: Staging
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
+expression 'Column Storage' =
+		let
+		    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT [ID], [COlumnID], [Name], [OrderByColumn], Locale, [Statistics_DistinctStates], [Statistics_RowCount], [Statistics_HasNulls] from $SYSTEM.TMSCHEMA_COLUMN_STORAGES where Locale <> 0"]),
+		    #"Renamed Columns" = Table.RenameColumns(Source,{{"COlumnID", "Column ID"}, {"OrderByColumn", "Order By Column"}, {"Statistics_DistinctStates", "Distinct Values"}, {"Statistics_RowCount", "Row Count"}, {"Statistics_HasNulls", "Has Nulls"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: 6523ec6d-780b-47fb-929b-f05357f37fba
+	queryGroup: Staging
+
+	annotation PBI_ResultType = Table
+
+expression Hierarchies =
+		let
+		    Source =  AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [TableID], [Name], [Description], [IsHidden], [HierarchyStorageID], [ModifiedTime], [StructureModifiedTime], [DisplayFolder] from $SYSTEM.TMSCHEMA_HIERARCHIES"]),
+		    #"Renamed Columns" = Table.RenameColumns(Source,{{"TableID", "Table ID"}, {"IsHidden", "Is Hidden"}, {"HierarchyStorageID", "Hierarchy Storage ID"}, {"ModifiedTime", "Modified Time"}, {"StructureModifiedTime", "Structure Modified Time"}, {"DisplayFolder", "Display Folder"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: 0d8a1b78-0de7-4368-8cda-f433d5dcfd8f
+	queryGroup: Staging
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression HierarchyLevelsStage =
+		let
+		    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [HierarchyID], [Ordinal], [Name], [Description], [ColumnID], [ModifiedTime] from $SYSTEM.TMSCHEMA_LEVELS"]),
+		    #"Renamed Columns" = Table.RenameColumns(Source,{{"HierarchyID", "Hierarchy ID"}, {"ColumnID", "Column ID"}, {"ModifiedTime", "Modified Time"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: 8a71f090-f75f-4f67-b73c-40c4eea8e796
+	queryGroup: Staging
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Columns Stage' =
+		let
+		    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [TableID], [ExplicitName] , [ExplicitDataType],  [DataCategory], [Description], [IsHidden], [IsUnique], [IsKey], [SummarizeBy], [ColumnStorageID], [Type], [SourceColumn], [Expression], [FormatString], [SortByColumnID], [AttributeHierarchyID], [ModifiedTime], [StructureModifiedTime], [DisplayFolder] from $SYSTEM.TMSCHEMA_COLUMNS"]),
+		    #"Renamed Columns" = Table.RenameColumns(Source,{{"ID", "ID"}, {"ExplicitName", "Explicit Name"}, {"ExplicitDataType", "Explicit Data Type"}, {"DataCategory", "Data Category"}, {"IsHidden", "Is Hidden"}, {"IsUnique", "Is Unique"}, {"IsKey", "Is Key"}, {"SummarizeBy", "Summarize By"}, {"ColumnStorageID", "Column Storage ID"}, {"SourceColumn", "Source Column"}, {"FormatString", "Format String"}, {"SortByColumnID", "Sort By Column ID"}, {"AttributeHierarchyID", "Attribute Hierarchy ID"}, {"ModifiedTime", "Modified Time"}, {"StructureModifiedTime", "Structure Modified Time"}, {"DisplayFolder", "Display Folder"}, {"TableID", "Table ID"}})
+		   in
+		    #"Renamed Columns"
+	lineageTag: 36bc0081-179c-40da-a1fb-994122a29de2
+	queryGroup: Staging
+
+	annotation PBI_ResultType = Table
+
+expression PerspectiveItemsStage =
+		let
+		    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [PerspectiveTableID], [ColumnID], [ModifiedTime] from $SYSTEM.TMSCHEMA_PERSPECTIVE_Columns"]),
+		    #"Added Custom" = Table.AddColumn(Source, "Item Type", each "Column")
+		    in
+		    #"Added Custom"
+	lineageTag: b721f9c5-530b-4a2a-9485-6bac0bb8e41d
+	queryGroup: Staging
+
+	annotation PBI_ResultType = Table
+
+expression CalculationItemsStage = ```
+		let
+		    Source = AnalysisServices.Database(
+		        #"AAS Instance", 
+		        #"Model Name", 
+		        [
+		            Query = "
+		                SELECT 
+		                    * FROM
+		                $SYSTEM.TMSCHEMA_CALCULATION_ITEMS
+		            "
+		        ]
+		    ),
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"ID", "CalculationGroupID", "Name", "Description", "ModifiedTime", "State", "Expression", "Ordinal"})
+		in
+		    #"Removed Other Columns"
+		```
+	lineageTag: 42396104-dcb1-4028-8969-363bf1180104
+	queryGroup: Staging
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression CalculationGroupsStage =
+		let
+		    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="#(lf)                SELECT #(lf)                    * FROM#(lf)                $SYSTEM.TMSCHEMA_CALCULATION_GROUPS            "])
+		in
+		    Source
+	lineageTag: f33b3d7d-eaf5-4467-86c1-814dddfb56c0
+	queryGroup: Staging
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression TablesStage =
+		let
+		    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="
+		    SELECT* FROM $SYSTEM.TMSCHEMA_TABLES"])
+		in
+		    Source
+	lineageTag: bf3ca112-6c4c-4002-881f-ade7a19bd6bb
+	queryGroup: Staging
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

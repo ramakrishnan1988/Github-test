@@ -1,0 +1,81 @@
+table Model
+	lineageTag: 4785a2f6-eeac-47da-b784-33f8c27dbb5c
+
+	column ID
+		dataType: double
+		lineageTag: f428cf00-f2fc-4acf-a294-3f6f4ff07a7e
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Model Name'
+		dataType: string
+		lineageTag: 9da7bf26-a6f1-4cc6-9864-0b6f5fee566b
+		summarizeBy: none
+		sourceColumn: Model Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Model Description'
+		dataType: string
+		lineageTag: d8acc3a8-d82f-49df-b687-a6f021c4bb12
+		summarizeBy: none
+		sourceColumn: Model Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Model Culture'
+		dataType: string
+		lineageTag: 0f7a91cb-9bca-46d0-bbb4-a259ae964509
+		summarizeBy: none
+		sourceColumn: Model Culture
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Modified Time'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e2f95da0-edd9-44f6-81d7-c0698c857e82
+		summarizeBy: none
+		sourceColumn: Modified Time
+
+		variation Variation
+			isDefault
+			relationship: 131a6026-1a6e-41fe-b0ac-a7598628de7c
+			defaultHierarchy: LocalDateTable_c5e3479e-e2dc-4604-9df3-b04e8d352b3d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Structure Modified Time'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 59394782-a06e-4f9b-9297-c83143b643c5
+		dataCategory: Organization
+		summarizeBy: none
+		sourceColumn: Structure Modified Time
+
+		variation Variation
+			isDefault
+			relationship: fd6f2e51-14a4-44ca-81eb-ec92cc666a38
+			defaultHierarchy: LocalDateTable_991b3f83-9908-4aba-9f67-e5c0f182337d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Model = m
+		mode: import
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [Name], [Description], [Culture], [ModifiedTime], [StructureModifiedTime] from $SYSTEM.TMSCHEMA_MODEL"]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"ModifiedTime", "Modified Time"}, {"StructureModifiedTime", "Structure Modified Time"}, {"Name", "Model Name"}, {"Description", "Model Description"}, {"Culture", "Model Culture"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_QueryRelationships = {"columnCount":6,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Model/Source.{ID,0}","Section1/Model/Source.{Name,1}","Section1/Model/Source.{Description,2}","Section1/Model/Source.{Culture,3}","Section1/Model/Source.{ModifiedTime,4}","Section1/Model/Source.{StructureModifiedTime,5}"],"ColumnCount":6,"KeyColumnNames":[],"ColumnIdentities":["Section1/Model/Source.{ID,0}","Section1/Model/Source.{Name,1}","Section1/Model/Source.{Description,2}","Section1/Model/Source.{Culture,3}","Section1/Model/Source.{ModifiedTime,4}","Section1/Model/Source.{StructureModifiedTime,5}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

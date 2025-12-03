@@ -1,0 +1,103 @@
+table 'Data Sources'
+	lineageTag: 7b9c3a81-8718-439d-9cde-25906f13a371
+
+	column ID
+		dataType: double
+		lineageTag: 66245b3c-4d66-471c-8631-14501a086a8b
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Model ID'
+		dataType: double
+		lineageTag: 6373bc33-ede1-49a2-9567-1aa0dad0c46b
+		summarizeBy: count
+		sourceColumn: Model ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Name
+		dataType: string
+		lineageTag: 7be437bb-8362-4b8f-b0fe-85ee29ac0d3e
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: a435b1f5-5a8a-4972-aade-906c2cffe501
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: int64
+		formatString: 0
+		lineageTag: 48c1187e-7112-41c4-bd74-1e23dd9de035
+		summarizeBy: sum
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Connection String'
+		dataType: string
+		lineageTag: d89dd26e-2178-47b1-9a6e-aeecb5bba5dd
+		summarizeBy: none
+		sourceColumn: Connection String
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Impersonation Mode'
+		dataType: int64
+		formatString: 0
+		lineageTag: 8662d71b-bb14-4e57-bbe2-0ab888cb2279
+		summarizeBy: sum
+		sourceColumn: Impersonation Mode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Account
+		dataType: string
+		lineageTag: 481dd7ae-5e2b-4aeb-8e0d-682b78664403
+		summarizeBy: none
+		sourceColumn: Account
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Modified Time'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3339e5de-fa6f-4e58-99db-22a3c7018468
+		summarizeBy: none
+		sourceColumn: Modified Time
+
+		variation Variation
+			isDefault
+			relationship: b384265c-c195-42c4-9df0-d33a256f4829
+			defaultHierarchy: LocalDateTable_a1c4a5de-8f81-4240-b17f-f32a4199bfa4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Data Sources-55d0c29c-f651-4329-aad3-9149d3fcebd9' = m
+		mode: import
+		queryGroup: Staging
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT [ID], [ModelID], [Name], [Description], [Type], [ConnectionString], [ImpersonationMode], [Account], [ModifiedTime] from $SYSTEM.TMSCHEMA_DATA_SOURCES"]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"ModelID", "Model ID"}, {"ConnectionString", "Connection String"}, {"ImpersonationMode", "Impersonation Mode"}, {"ModifiedTime", "Modified Time"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_QueryRelationships = {"columnCount":9,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Data Sources/Source.{ID,0}","Section1/Data Sources/Source.{ModelID,1}","Section1/Data Sources/Source.{Name,2}","Section1/Data Sources/Source.{Description,3}","Section1/Data Sources/Source.{Type,4}","Section1/Data Sources/Source.{ConnectionString,5}","Section1/Data Sources/Source.{ImpersonationMode,6}","Section1/Data Sources/Source.{Account,7}","Section1/Data Sources/Source.{ModifiedTime,8}"],"ColumnCount":9,"KeyColumnNames":[],"ColumnIdentities":["Section1/Data Sources/Source.{ID,0}","Section1/Data Sources/Source.{ModelID,1}","Section1/Data Sources/Source.{Name,2}","Section1/Data Sources/Source.{Description,3}","Section1/Data Sources/Source.{Type,4}","Section1/Data Sources/Source.{ConnectionString,5}","Section1/Data Sources/Source.{ImpersonationMode,6}","Section1/Data Sources/Source.{Account,7}","Section1/Data Sources/Source.{ModifiedTime,8}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

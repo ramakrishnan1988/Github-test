@@ -1,0 +1,36 @@
+table SummarizeBy
+	isHidden
+	lineageTag: ea7be799-52b7-409a-892e-d06ed1da8d33
+
+	column 'Summarize By ID'
+		dataType: int64
+		lineageTag: f8f6428f-41e2-4cef-94cb-05b74d53b962
+		summarizeBy: count
+		sourceColumn: Summarize By ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Summarize By'
+		dataType: string
+		lineageTag: 71974348-4afe-4a31-a176-e6ca7ccbcd2d
+		summarizeBy: none
+		sourceColumn: Summarize By
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SummarizeBy = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUXJJTUsszSlRitWJVjIC8fMV/PJLFIJLc3MTizKrUsESxkAJoAiYbQ5kO5alFiWmQ+QsQJoyi0sy85JLFJzzS/OAZsUCAA==", BinaryEncoding.Base64), Compression.Deflate))),
+				    #"Renamed Columns" = Table.RenameColumns(Source, {{"Column1", "Summarize By ID"}, {"Column2", "Summarize By"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns", {{"Summarize By ID", Int64.Type}, {"Summarize By", type text}})
+				 in
+				    #"Changed Type"
+
+	annotation PBI_QueryRelationships = {"columnCount":2,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/SummarizeBy/Changed Type.{Summarize By ID,0}","Section1/SummarizeBy/Changed Type.{Summarize By,1}"],"ColumnCount":2,"KeyColumnNames":[],"ColumnIdentities":["Section1/SummarizeBy/Changed Type.{Summarize By ID,0}","Section1/SummarizeBy/Changed Type.{Summarize By,1}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

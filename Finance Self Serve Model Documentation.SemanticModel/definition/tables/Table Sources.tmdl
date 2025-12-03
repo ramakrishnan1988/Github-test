@@ -1,0 +1,151 @@
+table 'Table Sources'
+	lineageTag: 2a1e41e5-85ec-4d99-88ae-75f455aba744
+
+	measure 'Table Source Count' = DISTINCTCOUNT([ID])
+		formatString: 0
+		lineageTag: 9e3b5b07-4435-4c36-be45-a8c76bc73845
+
+	column ID
+		dataType: double
+		lineageTag: 67e2c495-fe3d-46c4-b45b-c4985ea4f348
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TableID
+		dataType: double
+		lineageTag: d2ab835d-de55-454a-969e-02a8a602389d
+		summarizeBy: none
+		sourceColumn: TableID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Table Name'
+		dataType: string
+		lineageTag: ddd626a2-7ae5-49a3-a468-2d6f8ca4445d
+		summarizeBy: none
+		sourceColumn: Table Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Table Source Description'
+		dataType: string
+		lineageTag: 46dd589e-01b0-4166-8e1b-33ad5de44539
+		summarizeBy: none
+		sourceColumn: Table Source Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Source ID'
+		dataType: double
+		lineageTag: 8bdafc29-ec64-44a7-a953-cea632118f9c
+		summarizeBy: count
+		sourceColumn: Data Source ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Query Definition'
+		dataType: string
+		lineageTag: e69b10c0-27be-4e3e-9640-a9c357ad1409
+		summarizeBy: none
+		sourceColumn: Query Definition
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Table Source Type'
+		dataType: int64
+		lineageTag: 9dcd155f-2721-4cef-86e9-81b1ac8c4c35
+		summarizeBy: sum
+		sourceColumn: Table Source Type
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Table Source Mode'
+		dataType: int64
+		lineageTag: a1c70c89-7ee0-460a-b13c-9081d65b63f5
+		summarizeBy: sum
+		sourceColumn: Table Source Mode
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Table Source Modified Time'
+		dataType: dateTime
+		lineageTag: 85e9fb6a-0f17-496f-a1df-24b1824ff045
+		summarizeBy: none
+		sourceColumn: Table Source Modified Time
+
+		variation Variation
+			isDefault
+			relationship: 3cddba2e-87eb-417d-9be1-7ffd7b362085
+			defaultHierarchy: LocalDateTable_d6c19757-fc93-47b1-8d41-3137f6d86c6a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Source Name'
+		dataType: string
+		lineageTag: a7eccbf3-e904-4220-ba4b-650690cac90f
+		summarizeBy: none
+		sourceColumn: Data Source Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Source Description'
+		dataType: string
+		lineageTag: 7772d543-43ea-406a-a108-1c14b87d0c91
+		summarizeBy: none
+		sourceColumn: Data Source Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Source Type'
+		dataType: int64
+		lineageTag: 8d42ddbe-f62e-4792-824f-b90f5934e651
+		summarizeBy: sum
+		sourceColumn: Data Source Type
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Connection String'
+		dataType: string
+		lineageTag: 7d3d5b22-e592-45ec-bb64-b95e36ecc4fb
+		summarizeBy: none
+		sourceColumn: Connection String
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Connection Account'
+		dataType: string
+		lineageTag: b99994a5-9086-4596-9c2e-17cfc1b3af1c
+		summarizeBy: none
+		sourceColumn: Connection Account
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Table Sources' = m
+		mode: import
+		source =
+				let
+				    Source = Table.NestedJoin(TableSourceStage,{"Data Source ID"},#"Data Sources",{"ID"},"NewColumn",JoinKind.LeftOuter),
+				    #"Expanded NewColumn" = Table.ExpandTableColumn(Source, "NewColumn", {"Name", "Description", "Type", "Connection String", "Account"}, {"Name.1", "Description.1", "Type.1", "Connection String", "Account"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Expanded NewColumn",{{"Name.1", "Data Source Name"}, {"Description.1", "Data Source Description"}, {"Type.1", "Data Source Type"}, {"Name", "Table Name"}, {"Description", "Table Source Description"}, {"Type", "Table Source Type"}, {"Mode", "Table Source Mode"}, {"Account", "Connection Account"}, {"Modified Time", "Table Source Modified Time"}})
+				
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_QueryRelationships = {"columnCount":14,"keyColumnNames":[],"queryRelationships":[{"keyColumnCount":1,"keyColumn":4,"otherKeyColumnIdentity":"Section1/Data Sources/Source.{ID,0}","KeyColumnCount":1}],"columnIdentities":["Section1/TableSourceStage/Source.{ID,0}","Section1/TableSourceStage/Source.{TableID,1}","Section1/TableSourceStage/Source.{Name,2}","Section1/TableSourceStage/Source.{Description,3}","Section1/TableSourceStage/Source.{DataSourceID,4}","Section1/TableSourceStage/Source.{QueryDefinition,5}","Section1/TableSourceStage/Source.{Type,6}","Section1/TableSourceStage/Source.{Mode,7}","Section1/TableSourceStage/Source.{ModifiedTime,8}","Section1/Data Sources/Source.{Name,2}","Section1/Data Sources/Source.{Description,3}","Section1/Data Sources/Source.{Type,4}","Section1/Data Sources/Source.{ConnectionString,5}","Section1/Data Sources/Source.{Account,7}"],"ColumnCount":14,"KeyColumnNames":[],"ColumnIdentities":["Section1/TableSourceStage/Source.{ID,0}","Section1/TableSourceStage/Source.{TableID,1}","Section1/TableSourceStage/Source.{Name,2}","Section1/TableSourceStage/Source.{Description,3}","Section1/TableSourceStage/Source.{DataSourceID,4}","Section1/TableSourceStage/Source.{QueryDefinition,5}","Section1/TableSourceStage/Source.{Type,6}","Section1/TableSourceStage/Source.{Mode,7}","Section1/TableSourceStage/Source.{ModifiedTime,8}","Section1/Data Sources/Source.{Name,2}","Section1/Data Sources/Source.{Description,3}","Section1/Data Sources/Source.{Type,4}","Section1/Data Sources/Source.{ConnectionString,5}","Section1/Data Sources/Source.{Account,7}"],"RelationshipInfo":[{"keyColumnCount":1,"keyColumn":4,"otherKeyColumnIdentity":"Section1/Data Sources/Source.{ID,0}","KeyColumnCount":1}]}
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,35 @@
+table DataTypes
+	lineageTag: 740f49dd-9ae5-48ff-89cb-34c68cb96004
+
+	column DataTypeID
+		dataType: int64
+		lineageTag: 18f3f57f-493e-42f9-971c-7e8a464a68c3
+		summarizeBy: count
+		sourceColumn: DataTypeID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Type'
+		dataType: string
+		lineageTag: c3e31f63-bf54-457d-90c1-d6dbb4b429f8
+		summarizeBy: none
+		sourceColumn: Data Type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DataTypes = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlPSUfLMK1GK1YlWsgCyXVKTM3MTc8B8IyA/JLUCKBkLAA==", BinaryEncoding.Base64), Compression.Deflate))),
+				    #"Renamed Columns" = Table.RenameColumns(Source, {{"Column1", "DataTypeID"}, {"Column2", "Data Type"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns", {{"DataTypeID", Int64.Type}, {"Data Type", type text}})
+				 in
+				    #"Changed Type"
+
+	annotation PBI_QueryRelationships = {"columnCount":2,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/DataTypes/Changed Type.{DataTypeID,0}","Section1/DataTypes/Changed Type.{Data Type,1}"],"ColumnCount":2,"KeyColumnNames":[],"ColumnIdentities":["Section1/DataTypes/Changed Type.{DataTypeID,0}","Section1/DataTypes/Changed Type.{Data Type,1}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

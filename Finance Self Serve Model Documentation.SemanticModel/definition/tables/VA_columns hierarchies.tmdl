@@ -1,0 +1,97 @@
+table 'VA_columns hierarchies'
+	lineageTag: 9814ec69-d078-4b25-989a-f2ab6d6d4c3c
+
+	column TABLE_NAME
+		dataType: string
+		isHidden
+		lineageTag: 96165a19-63de-408a-b163-90329fc07ed2
+		summarizeBy: none
+		sourceColumn: TABLE_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column STRUCTURE_NAME
+		dataType: string
+		lineageTag: 5b43d043-6538-4cd9-925d-fa778b81c4af
+		summarizeBy: none
+		sourceColumn: STRUCTURE_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEGMENT_NUMBER
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0c4416ed-8de8-4242-8a16-50e7e867988e
+		summarizeBy: sum
+		sourceColumn: SEGMENT_NUMBER
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TABLE_PARTITION_NUMBER
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f99f8c50-0ab0-44f9-b349-c29f9068fb9e
+		summarizeBy: sum
+		sourceColumn: TABLE_PARTITION_NUMBER
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column USED_SIZE
+		dataType: double
+		isHidden
+		lineageTag: 07f6b035-5346-421b-b6eb-53e18f51953f
+		summarizeBy: sum
+		sourceColumn: USED_SIZE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COLUMN_HIERARCHY_ID
+		dataType: string
+		isHidden
+		lineageTag: b9b74a88-9fd0-4bd9-8960-e48574d89a53
+		summarizeBy: none
+		sourceColumn: COLUMN_HIERARCHY_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column COLUMN_NAME = RIGHT ( 'VA_columns hierarchies'[COLUMN_HIERARCHY_ID], LEN ( 'va_Columns Hierarchies'[COLUMN_HIERARCHY_ID] ) - FIND ( "$", 'VA_Columns Hierarchies'[COLUMN_HIERARCHY_ID],3 ) )
+		isHidden
+		lineageTag: b5a8a387-f368-4530-b182-7039ee699f21
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column ColumnKey = 'VA_Columns Hierarchies'[TABLE_NAME] & "-" & 'VA_Columns Hierarchies'[COLUMN_NAME]
+		isHidden
+		lineageTag: dfb41661-d641-4413-8b1f-c09c1fdf69fe
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'VA_columns hierarchies-cb78248c-30ca-4ede-915d-a70191b8f84c' = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT #(lf)    DIMENSION_NAME AS TABLE_NAME, #(lf)    COLUMN_ID AS STRUCTURE_NAME,#(lf)    SEGMENT_NUMBER, #(lf)    TABLE_PARTITION_NUMBER, #(lf)    USED_SIZE,#(lf)    TABLE_ID AS COLUMN_HIERARCHY_ID#(lf)FROM $SYSTEM.DISCOVER_STORAGE_TABLE_COLUMN_SEGMENTS#(lf)WHERE LEFT ( TABLE_ID, 2 ) = 'H$'"])
+				in
+				    Source
+
+	annotation PBI_QueryRelationships = {"columnCount":6,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/VA_columns hierarchies/Source.{TABLE_NAME,0}","Section1/VA_columns hierarchies/Source.{STRUCTURE_NAME,1}","Section1/VA_columns hierarchies/Source.{SEGMENT_NUMBER,2}","Section1/VA_columns hierarchies/Source.{TABLE_PARTITION_NUMBER,3}","Section1/VA_columns hierarchies/Source.{USED_SIZE,4}","Section1/VA_columns hierarchies/Source.{COLUMN_HIERARCHY_ID,5}"],"ColumnCount":6,"KeyColumnNames":[],"ColumnIdentities":["Section1/VA_columns hierarchies/Source.{TABLE_NAME,0}","Section1/VA_columns hierarchies/Source.{STRUCTURE_NAME,1}","Section1/VA_columns hierarchies/Source.{SEGMENT_NUMBER,2}","Section1/VA_columns hierarchies/Source.{TABLE_PARTITION_NUMBER,3}","Section1/VA_columns hierarchies/Source.{USED_SIZE,4}","Section1/VA_columns hierarchies/Source.{COLUMN_HIERARCHY_ID,5}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

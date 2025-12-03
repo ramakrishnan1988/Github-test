@@ -1,0 +1,67 @@
+table 'VA_Columns Cardinality'
+	isHidden
+	lineageTag: 53e1aefe-25ec-4723-a91b-e558d39be4e7
+
+	column TABLE_NAME
+		dataType: string
+		isHidden
+		lineageTag: 3840cbb7-e0ed-41ad-a865-f5e541fe9dc9
+		summarizeBy: none
+		sourceColumn: TABLE_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column COLUMN_HIERARCHY_ID
+		dataType: string
+		isHidden
+		lineageTag: b3c0b545-6bde-49c4-b8f1-091681407f65
+		summarizeBy: none
+		sourceColumn: COLUMN_HIERARCHY_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column COLUMN_CARDINALITY
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a8023c93-2c42-4f47-8d38-9155e66c9419
+		summarizeBy: none
+		sourceColumn: COLUMN_CARDINALITY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column COLUMN_NAME = RIGHT ( 'VA_Columns Cardinality'[COLUMN_HIERARCHY_ID], LEN ( 'VA_Columns Cardinality'[COLUMN_HIERARCHY_ID] ) - FIND ( "$", 'VA_Columns Cardinality'[COLUMN_HIERARCHY_ID],3 ) )
+		isHidden
+		lineageTag: bbd2bd75-584d-4c10-9e02-4d6620e7a508
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column ColumnKey = 'VA_Columns Cardinality'[TABLE_NAME] & "-" & 'VA_Columns Cardinality'[COLUMN_NAME]
+		isHidden
+		lineageTag: 023a1f92-c936-481c-864d-a4ab5e4f004b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'VA_Columns Cardinality-e9d49e57-cfc6-4ca2-b275-fa095bc675cc' = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT#(lf)    DIMENSION_NAME AS TABLE_NAME, #(lf)    TABLE_ID AS COLUMN_HIERARCHY_ID,#(lf)    ROWS_COUNT - 3 AS COLUMN_CARDINALITY#(lf)FROM $SYSTEM.DISCOVER_STORAGE_TABLES#(lf)WHERE LEFT ( TABLE_ID, 2 ) = 'H$'#(lf)ORDER BY TABLE_ID"])
+				in
+				    Source
+
+	annotation PBI_QueryRelationships = {"columnCount":3,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/VA_Columns Cardinality/Source.{TABLE_NAME,0}","Section1/VA_Columns Cardinality/Source.{COLUMN_HIERARCHY_ID,1}","Section1/VA_Columns Cardinality/Source.{COLUMN_CARDINALITY,2}"],"ColumnCount":3,"KeyColumnNames":[],"ColumnIdentities":["Section1/VA_Columns Cardinality/Source.{TABLE_NAME,0}","Section1/VA_Columns Cardinality/Source.{COLUMN_HIERARCHY_ID,1}","Section1/VA_Columns Cardinality/Source.{COLUMN_CARDINALITY,2}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

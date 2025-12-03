@@ -1,0 +1,48 @@
+{
+  "build": "11.0.9168.916",
+  "version": "0.11.5",
+  "author": {
+    "name": "Microsoft (experimental)",
+    "email": "msrvizsupport@microsoft.com"
+  },
+  "licenseTerms": "https://powerbi.microsoft.com/en-us/visuals-gallery-terms/",
+  "privacyTerms": "https://privacy.microsoft.com/en-US/privacystatement/",
+  "resources": [
+    {
+      "resourceId": "rId1",
+      "sourceType": 0,
+      "file": "resources/project.js"
+    },
+    {
+      "resourceId": "rId2",
+      "sourceType": 1,
+      "file": "resources/project.css"
+    },
+    {
+      "resourceId": "rId3",
+      "sourceType": 3,
+      "file": "resources/icon.svg"
+    }
+  ],
+  "visual": {
+    "guid": "AttributeSlicer1652434005853",
+    "name": "AttributeSlicer",
+    "displayName": "Attribute Slicer",
+    "version": "0.11.5",
+    "description": "This visual is currently in beta testing and is undergoing active development. Attribute Slicer lets you filter a dataset on a given column by selecting attribute values of interest. The initial display is a helpful overview that lists the most common values first and shows the overall distribution of values as a horizontal bar chart. Whenever you select an attribute value, it is moved to the list of applied filters and all records containing that value are added to the result set for further analysis.",
+    "supportUrl": "http://community.powerbi.com"
+  },
+  "images": {
+    "icon": {
+      "resourceId": "rId3"
+    }
+  },
+  "code": {
+    "javaScript": {
+      "resourceId": "rId1"
+    },
+    "css": {
+      "resourceId": "rId2"
+    }
+  }
+}

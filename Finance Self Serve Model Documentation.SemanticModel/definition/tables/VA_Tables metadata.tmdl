@@ -1,0 +1,87 @@
+table 'VA_Tables metadata'
+	isHidden
+	lineageTag: de597e63-c888-418f-9040-2fa80ccf1255
+
+	column TableID
+		dataType: double
+		isHidden
+		lineageTag: db2fdabd-b023-447c-8c0d-057394ab217a
+		summarizeBy: none
+		sourceColumn: TableID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Table
+		dataType: string
+		isHidden
+		lineageTag: 22aec22a-a35c-454a-acd7-32a131a1de22
+		summarizeBy: none
+		sourceColumn: Table
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataCategory
+		dataType: string
+		isHidden
+		lineageTag: 262ab22b-e4b2-4eb9-afed-191dbaf4fb27
+		summarizeBy: none
+		sourceColumn: DataCategory
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		isHidden
+		lineageTag: 45ed1fce-4599-40f1-964a-6a88b14e4701
+		summarizeBy: none
+		sourceColumn: Description
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsHidden
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1273671f-c2c0-495c-b24d-a7704b9a8c7f
+		summarizeBy: none
+		sourceColumn: IsHidden
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SystemFlags
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c95c16e4-935c-41bd-ae9f-8668f4853cf8
+		summarizeBy: sum
+		sourceColumn: SystemFlags
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'VA_Tables metadata-ae7971af-7d60-4f00-ae5a-3b9169079769' = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT #(lf)    [ID] AS [TableID], #(lf)    [Name] AS [Table],#(lf)    [DataCategory],#(lf)    [Description],#(lf)    [IsHidden],#(lf)    [SystemFlags]#(lf)FROM $SYSTEM.TMSCHEMA_TABLES"])
+				in
+				    Source
+
+	annotation PBI_QueryRelationships = {"columnCount":6,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/VA_Tables metadata/Source.{TableID,0}","Section1/VA_Tables metadata/Source.{Table,1}","Section1/VA_Tables metadata/Source.{DataCategory,2}","Section1/VA_Tables metadata/Source.{Description,3}","Section1/VA_Tables metadata/Source.{IsHidden,4}","Section1/VA_Tables metadata/Source.{SystemFlags,5}"],"ColumnCount":6,"KeyColumnNames":[],"ColumnIdentities":["Section1/VA_Tables metadata/Source.{TableID,0}","Section1/VA_Tables metadata/Source.{Table,1}","Section1/VA_Tables metadata/Source.{DataCategory,2}","Section1/VA_Tables metadata/Source.{Description,3}","Section1/VA_Tables metadata/Source.{IsHidden,4}","Section1/VA_Tables metadata/Source.{SystemFlags,5}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

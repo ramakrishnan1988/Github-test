@@ -1,0 +1,20 @@
+table 'AAS Instance'
+	lineageTag: f1d513cd-1cc3-4532-86f6-ce599d6d0849
+
+	column 'AAS Instance'
+		dataType: string
+		lineageTag: 89b6390d-cae0-4390-ba89-151bfee5a3b3
+		summarizeBy: none
+		sourceColumn: AAS Instance
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'AAS Instance' = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source = "powerbi://api.powerbi.com/v1.0/myorg/%5BUAT%5D%20Data%20Analytics%20Semantic%20Models" meta [IsParameterQuery=true, List={"powerbi://api.powerbi.com/v1.0/myorg/%5BUAT%5D%20Data%20Analytics%20Semantic%20Models", "powerbi://api.powerbi.com/v1.0/myorg/%5BDEV%5D%20Data%20Analytics%20Semantic%20Models"}, DefaultValue="powerbi://api.powerbi.com/v1.0/myorg/%5BDEV%5D%20Data%20Analytics%20Semantic%20Models", Type="Any", IsParameterQueryRequired=true]
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

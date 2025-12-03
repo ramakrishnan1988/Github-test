@@ -1,0 +1,20 @@
+table 'Model Name'
+	lineageTag: 89c3fa81-d183-42b4-bd53-854ca6f590ad
+
+	column 'Model Name'
+		dataType: string
+		lineageTag: 2aca20c1-1c3b-4c75-9d17-cdfb9f3d4218
+		summarizeBy: none
+		sourceColumn: Model Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Model Name' = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source = "Finance Self Serve Semantic Model" meta [IsParameterQuery=true, List={"People Metrics Semantic Model", "Finance Model"}, DefaultValue="Finance Model", Type="Any", IsParameterQueryRequired=true]
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

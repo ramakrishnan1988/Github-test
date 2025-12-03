@@ -1,0 +1,93 @@
+table 'Calculation Groups'
+	lineageTag: 85f05092-32ae-4047-b409-25ef482e9367
+
+	column ID
+		dataType: double
+		lineageTag: baf77394-1be3-46c2-b1ff-928dceac49d3
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TableID
+		dataType: double
+		lineageTag: 43635396-3671-4464-bfa5-46932e63aeb8
+		summarizeBy: none
+		sourceColumn: TableID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TableName
+		dataType: string
+		lineageTag: 1559155c-973d-4e48-941d-af4fe61b1ac6
+		summarizeBy: none
+		sourceColumn: TableName
+		sortByColumn: TableID
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		formatString: 0
+		lineageTag: 936e707e-2668-4e28-978b-ee3cee078587
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: int64
+		formatString: 0
+		lineageTag: aa34cb5b-8108-4fdb-aea8-78c5d3ebe287
+		summarizeBy: sum
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column Expression
+		dataType: string
+		lineageTag: f0aaed79-78c3-405a-acfc-f3f2d9663c28
+		summarizeBy: none
+		sourceColumn: Expression
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 866b6bd9-6628-4667-9b3e-8eb753335a1a
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Calculation Item Name'
+		dataType: string
+		lineageTag: 3bcf3789-b2ed-4f80-a3c7-be0320974a94
+		summarizeBy: none
+		sourceColumn: Calculation Item Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Calculation Groups' = m
+		mode: import
+		source =
+				let
+				    Source = "CalculationGroupStage",
+				    #"Merged Queries" = Table.NestedJoin(CalculationGroupsStage, {"TableID"}, TablesStage, {"ID"}, "NewColumn", JoinKind.LeftOuter),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Merged Queries",{"ID", "TableID", "NewColumn"}),
+				    #"Expanded NewColumn" = Table.ExpandTableColumn(#"Removed Other Columns", "NewColumn", {"Name"}, {"TableName"}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Expanded NewColumn", {"ID"}, CalculationItemsStage, {"CalculationGroupID"}, "CalculationItemsStage", JoinKind.LeftOuter),
+				    #"Expanded CalculationItemsStage" = Table.ExpandTableColumn(#"Merged Queries1", "CalculationItemsStage", {"Name", "Description", "State", "Expression", "Ordinal"}, {"Calculation Item Name", "Description", "State", "Expression", "Ordinal"})
+				in
+				    #"Expanded CalculationItemsStage"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

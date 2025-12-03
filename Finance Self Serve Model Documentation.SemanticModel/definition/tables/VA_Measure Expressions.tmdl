@@ -1,0 +1,93 @@
+table 'VA_Measure Expressions'
+	lineageTag: b2a3e788-8cf4-48eb-9fec-cd4d47feef2c
+
+	column TableID
+		dataType: double
+		lineageTag: da9bd1d3-6f78-4794-be9e-b1508172300f
+		summarizeBy: none
+		sourceColumn: TableID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Measure
+		dataType: string
+		lineageTag: e4e406d7-21d6-46b5-aa0f-5700fe92bc6c
+		summarizeBy: none
+		sourceColumn: Measure
+
+		annotation SummarizationSetBy = Automatic
+
+	column Expression
+		dataType: string
+		lineageTag: ec966446-ad01-4adc-a397-3762895abeb5
+		summarizeBy: none
+		sourceColumn: Expression
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: f2287c7e-021a-479d-9085-493c960bb63c
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsHidden
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 28925c82-01c9-43fa-ae05-1435bf945ad8
+		summarizeBy: none
+		sourceColumn: IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: int64
+		formatString: 0
+		lineageTag: 81c775a8-d137-4aed-ae04-5a630366e817
+		summarizeBy: sum
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataType
+		dataType: int64
+		formatString: 0
+		lineageTag: b743ab2d-c081-4c26-9760-72af934427c1
+		summarizeBy: sum
+		sourceColumn: DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column DisplayFolder
+		dataType: string
+		lineageTag: dc5cf349-0592-44d0-955f-4d07a6113cfb
+		summarizeBy: none
+		sourceColumn: DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	column FormatString
+		dataType: string
+		lineageTag: 04cb651d-fe39-4d5f-a5cf-a53b6fc4aa0d
+		summarizeBy: none
+		sourceColumn: FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'VA_Measure Expressions-78338a58-223c-4f62-921a-465ceca95153' = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT#(lf)    [TableID],#(lf)    [Name] AS [Measure],#(lf)    TRIM ( [Expression] ) as [Expression], #(lf)    [Description],#(lf)    [IsHidden],#(lf)    [State],#(lf)    [DataType],#(lf)    [DisplayFolder],#(lf)    [FormatString]#(lf)FROM $SYSTEM.TMSCHEMA_MEASURES"])
+				in
+				    Source
+
+	annotation PBI_QueryRelationships = {"columnCount":9,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/VA_Measure Expressions/Source.{TableID,0}","Section1/VA_Measure Expressions/Source.{Measure,1}","Section1/VA_Measure Expressions/Source.{Expression,2}","Section1/VA_Measure Expressions/Source.{Description,3}","Section1/VA_Measure Expressions/Source.{IsHidden,4}","Section1/VA_Measure Expressions/Source.{State,5}","Section1/VA_Measure Expressions/Source.{DataType,6}","Section1/VA_Measure Expressions/Source.{DisplayFolder,7}","Section1/VA_Measure Expressions/Source.{FormatString,8}"],"ColumnCount":9,"KeyColumnNames":[],"ColumnIdentities":["Section1/VA_Measure Expressions/Source.{TableID,0}","Section1/VA_Measure Expressions/Source.{Measure,1}","Section1/VA_Measure Expressions/Source.{Expression,2}","Section1/VA_Measure Expressions/Source.{Description,3}","Section1/VA_Measure Expressions/Source.{IsHidden,4}","Section1/VA_Measure Expressions/Source.{State,5}","Section1/VA_Measure Expressions/Source.{DataType,6}","Section1/VA_Measure Expressions/Source.{DisplayFolder,7}","Section1/VA_Measure Expressions/Source.{FormatString,8}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

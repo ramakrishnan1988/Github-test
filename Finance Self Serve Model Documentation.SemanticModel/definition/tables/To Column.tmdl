@@ -1,0 +1,243 @@
+table 'To Column'
+	lineageTag: 64a70a72-c81e-4145-9543-eb180c4dffdd
+
+	column ID
+		dataType: double
+		lineageTag: 6df42fe0-ac6f-4ea0-b343-c803a67b09a1
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Table ID'
+		dataType: double
+		lineageTag: 72b529c1-3779-4ce7-9c4c-940618f4470a
+		summarizeBy: none
+		sourceColumn: Table ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'To Column Name'
+		dataType: string
+		lineageTag: 8e30c260-0264-45d4-898f-05a7f265015e
+		summarizeBy: none
+		sourceColumn: To Column Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Explicit Data Type'
+		dataType: int64
+		lineageTag: 7f522515-e4f9-46ee-8ae8-0616329ab5af
+		summarizeBy: sum
+		sourceColumn: Explicit Data Type
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'To Column Data Category'
+		dataType: string
+		lineageTag: 56dc29dd-1174-45b7-b023-3feb2036d530
+		summarizeBy: none
+		sourceColumn: To Column Data Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Description'
+		dataType: string
+		lineageTag: 9860cf63-931a-496b-b872-9b39ec9ea5c1
+		summarizeBy: none
+		sourceColumn: To Column Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Is Hidden'
+		dataType: boolean
+		lineageTag: 9ce311c4-a4b0-4d51-9f88-4f9264a2e21c
+		summarizeBy: none
+		sourceColumn: To Column Is Hidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Is Unique'
+		dataType: boolean
+		lineageTag: b7bb6c96-9db2-4efc-8253-148a578e4c4d
+		summarizeBy: none
+		sourceColumn: To Column Is Unique
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Is Key'
+		dataType: boolean
+		lineageTag: 5320afa3-63ed-4f46-8038-76b11f2f0e36
+		summarizeBy: none
+		sourceColumn: To Column Is Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Summarize By'
+		dataType: int64
+		lineageTag: 9699704c-c6c5-4d9a-aa31-dacfe533899d
+		summarizeBy: sum
+		sourceColumn: To Column Summarize By
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Storage ID'
+		dataType: double
+		lineageTag: 49973ee5-a081-461b-9256-19dc2829ff50
+		summarizeBy: count
+		sourceColumn: To Column Storage ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Type' = LOOKUPVALUE('DataTypes'[Data Type],'DataTypes'[DataTypeID], 'To Column'[Explicit Data Type])
+		lineageTag: 2987bdd6-24de-491d-9938-7c3f4fd656ca
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: int64
+		lineageTag: 8e96f144-e18b-422c-8a31-8442db8ff88d
+		summarizeBy: sum
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'To Column Source Column'
+		dataType: string
+		lineageTag: 0e724e3e-2505-416b-839a-02fe277c8fb4
+		summarizeBy: none
+		sourceColumn: To Column Source Column
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Expression'
+		dataType: string
+		lineageTag: 4d5028ec-6e54-4ca5-aafd-ca8749ec6dae
+		summarizeBy: none
+		sourceColumn: To Column Expression
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Format String'
+		dataType: string
+		lineageTag: 24ad215f-05f6-40bc-8f1b-08fa2d5c151e
+		summarizeBy: none
+		sourceColumn: To Column Format String
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Attribute Hierarchy ID'
+		dataType: double
+		lineageTag: 7bd5ce6b-d431-43f3-8b81-deb97ebd42c4
+		summarizeBy: count
+		sourceColumn: To Column Attribute Hierarchy ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Modified Time'
+		dataType: dateTime
+		lineageTag: 01efda5a-2256-443a-9f64-de015b6ee2a8
+		summarizeBy: none
+		sourceColumn: To Column Modified Time
+
+		variation Variation
+			isDefault
+			relationship: 1ad12a95-5153-4d4e-9626-a9e922288eb3
+			defaultHierarchy: LocalDateTable_06f3aa35-9494-4ff5-9e33-a681676a973a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Structure Modified Time'
+		dataType: dateTime
+		lineageTag: 243ac832-0e96-44a2-ab3c-09acd6b4558f
+		summarizeBy: none
+		sourceColumn: To Column Structure Modified Time
+
+		variation Variation
+			isDefault
+			relationship: 5c2af054-f488-4bda-ac28-5139bda7e303
+			defaultHierarchy: LocalDateTable_03a6bf26-4f31-4d07-b4d4-8762e84a3384.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Display Folder'
+		dataType: string
+		lineageTag: 95f6cd8f-e176-419d-9dfe-a25910183faf
+		summarizeBy: none
+		sourceColumn: To Column Display Folder
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Storage Name'
+		dataType: string
+		lineageTag: 494f37ec-8cef-42a5-8ef0-e407db038cb9
+		summarizeBy: none
+		sourceColumn: To Column Storage Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Column Locale'
+		dataType: int64
+		lineageTag: 8334bc2e-f90a-482c-a97f-e443de4ae26b
+		summarizeBy: none
+		sourceColumn: To Column Locale
+
+		annotation SummarizationSetBy = User
+
+	column 'To Column Distinct Values'
+		dataType: int64
+		formatString: 0
+		lineageTag: 5c82d1b9-e9d2-4518-9901-838a1ac52fc0
+		summarizeBy: average
+		sourceColumn: To Column Distinct Values
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+	column 'To Column Row Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: fa7c726c-5fd7-4770-970e-6a430c0c47da
+		summarizeBy: average
+		sourceColumn: To Column Row Count
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+	column 'To Column Has Nulls'
+		dataType: boolean
+		lineageTag: 885c729f-2633-4638-95c1-7c2d4bb7bbe5
+		summarizeBy: none
+		sourceColumn: To Column Has Nulls
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'To Column' = m
+		mode: import
+		source =
+				let
+				    Source = Columns,
+				    #"Renamed Columns1" = Table.RenameColumns(#"Source",{{"Column Name", "To Column Name"}, {"Data Category", "To Column Data Category"}, {"Column Description", "To Column Description"}, {"Column Is Hidden", "To Column Is Hidden"}, {"Is Unique", "To Column Is Unique"}, {"Is Key", "To Column Is Key"}, {"Summarize By", "To Column Summarize By"}, {"Source Column", "To Column Source Column"}, {"Column Expression", "To Column Expression"}, {"Column Format String", "To Column Format String"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns1",{"Sort By Column ID"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns",{{"Column Storage ID", "To Column Storage ID"}, {"Attribute Hierarchy ID", "To Column Attribute Hierarchy ID"}, {"Column Modified Time", "To Column Modified Time"}, {"Column Structure Modified Time", "To Column Structure Modified Time"}, {"Column Display Folder", "To Column Display Folder"}, {"Storage Name", "To Column Storage Name"}}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Renamed Columns2",{"Order By Column"}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Removed Columns1",{{"Column Locale", "To Column Locale"}, {"Column Distinct Values", "To Column Distinct Values"}, {"Column Row Count", "To Column Row Count"}, {"Column Has Nulls", "To Column Has Nulls"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns3", each not Text.StartsWith([To Column Name], "RowNumber-"))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_QueryRelationships = {"columnCount":24,"keyColumnNames":[],"queryRelationships":[{"keyColumnCount":1,"keyColumn":0,"otherKeyColumnIdentity":"Section1/Column Storage/Source.{COlumnID,1}","KeyColumnCount":1}],"columnIdentities":["Section1/Columns Stage/Source.{ID,0}","Section1/Columns Stage/Source.{TableID,1}","Section1/Columns Stage/Source.{ExplicitName,2}","Section1/Columns Stage/Source.{ExplicitDataType,3}","Section1/Columns Stage/Source.{DataCategory,4}","Section1/Columns Stage/Source.{Description,5}","Section1/Columns Stage/Source.{IsHidden,6}","Section1/Columns Stage/Source.{IsUnique,7}","Section1/Columns Stage/Source.{IsKey,8}","Section1/Columns Stage/Source.{SummarizeBy,9}","Section1/Columns Stage/Source.{ColumnStorageID,10}","Section1/Columns Stage/Source.{Type,11}","Section1/Columns Stage/Source.{SourceColumn,12}","Section1/Columns Stage/Source.{Expression,13}","Section1/Columns Stage/Source.{FormatString,14}","Section1/Columns Stage/Source.{AttributeHierarchyID,16}","Section1/Columns Stage/Source.{ModifiedTime,17}","Section1/Columns Stage/Source.{StructureModifiedTime,18}","Section1/Columns Stage/Source.{DisplayFolder,19}","Section1/Column Storage/Source.{Name,2}","Section1/Column Storage/Source.{Locale,4}","Section1/Column Storage/Source.{Statistics_DistinctStates,5}","Section1/Column Storage/Source.{Statistics_RowCount,6}","Section1/Column Storage/Source.{Statistics_HasNulls,7}"],"ColumnCount":24,"KeyColumnNames":[],"ColumnIdentities":["Section1/Columns Stage/Source.{ID,0}","Section1/Columns Stage/Source.{TableID,1}","Section1/Columns Stage/Source.{ExplicitName,2}","Section1/Columns Stage/Source.{ExplicitDataType,3}","Section1/Columns Stage/Source.{DataCategory,4}","Section1/Columns Stage/Source.{Description,5}","Section1/Columns Stage/Source.{IsHidden,6}","Section1/Columns Stage/Source.{IsUnique,7}","Section1/Columns Stage/Source.{IsKey,8}","Section1/Columns Stage/Source.{SummarizeBy,9}","Section1/Columns Stage/Source.{ColumnStorageID,10}","Section1/Columns Stage/Source.{Type,11}","Section1/Columns Stage/Source.{SourceColumn,12}","Section1/Columns Stage/Source.{Expression,13}","Section1/Columns Stage/Source.{FormatString,14}","Section1/Columns Stage/Source.{AttributeHierarchyID,16}","Section1/Columns Stage/Source.{ModifiedTime,17}","Section1/Columns Stage/Source.{StructureModifiedTime,18}","Section1/Columns Stage/Source.{DisplayFolder,19}","Section1/Column Storage/Source.{Name,2}","Section1/Column Storage/Source.{Locale,4}","Section1/Column Storage/Source.{Statistics_DistinctStates,5}","Section1/Column Storage/Source.{Statistics_RowCount,6}","Section1/Column Storage/Source.{Statistics_HasNulls,7}"],"RelationshipInfo":[{"keyColumnCount":1,"keyColumn":0,"otherKeyColumnIdentity":"Section1/Column Storage/Source.{COlumnID,1}","KeyColumnCount":1}]}
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,53 @@
+table VA_tables
+	isHidden
+	lineageTag: 467c1d37-1a7e-4cc1-be3a-994d570d534d
+
+	column TABLE_NAME
+		dataType: string
+		isHidden
+		lineageTag: 3aaf3821-53e5-4f0c-9709-92b083043643
+		summarizeBy: none
+		sourceColumn: TABLE_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TABLE_ID
+		dataType: string
+		isHidden
+		lineageTag: 6841ac4f-55fe-4bac-8193-337b18090618
+		summarizeBy: none
+		sourceColumn: TABLE_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ROWS_IN_TABLE
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fb72df53-f5cd-40b3-8a32-8418cd9f4370
+		summarizeBy: sum
+		sourceColumn: ROWS_IN_TABLE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition VA_tables-65b80add-eae2-4fdb-9721-89132a003c4e = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT DIMENSION_NAME AS TABLE_NAME, TABLE_ID AS TABLE_ID,ROWS_COUNT AS ROWS_IN_TABLE FROM $SYSTEM.DISCOVER_STORAGE_TABLES WHERE RIGHT(LEFT(TABLE_ID,2),1) <>'$' ORDER BY DIMENSION_NAME"])
+				in
+				    Source
+
+	annotation PBI_QueryRelationships = {"columnCount":3,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/VA_tables/Source.{TABLE_NAME,0}","Section1/VA_tables/Source.{TABLE_ID,1}","Section1/VA_tables/Source.{ROWS_IN_TABLE,2}"],"ColumnCount":3,"KeyColumnNames":[],"ColumnIdentities":["Section1/VA_tables/Source.{TABLE_NAME,0}","Section1/VA_tables/Source.{TABLE_ID,1}","Section1/VA_tables/Source.{ROWS_IN_TABLE,2}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

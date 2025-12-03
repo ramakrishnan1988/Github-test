@@ -1,0 +1,358 @@
+table VA_columns
+	lineageTag: ad06ff8b-095f-4f08-ae9d-023006107c6b
+
+	measure TableSelected = NOT [ColumnSelected]
+		lineageTag: 3f77603d-444c-480b-9ba1-412046332d2a
+
+	measure ColumnSelected = ISFILTERED(  'VA_Columns'[COLUMN_NAME] ) || ISFILTERED ( 'VA_Columns'[ColumnKey] )
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fd247f2d-f5b6-4387-bac0-0d0a5ec9340d
+
+	measure ColumnsSegmentsSelected = ```
+			ISFILTERED ( 'VA_Column Segments'[BITS_COUNT] ) || ISFILTERED ( 'VA_Column Segments'[BOOKMARK_BITS_COUNT] ) || ISFILTERED ( 'VA_Column Segments'[COMPRESSION_TYPE] ) 
+			|| ISFILTERED ( 'VA_Column Segments'[PARTITION_NAME] )
+			|| ISFILTERED ( 'va_Column Segments'[SEGMENT_NUMBER] )
+			|| ISFILTERED ( 'VA_Column Segments'[TABLE_PARTITION_NUMBER] )
+			|| ISFILTERED ( 'VA_Column Segments'[VERTIPAQ_STATE] )
+			```
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5f744ee2-2d7e-4bc7-9a1b-5efe0961463a
+
+	measure ColumnsHierarchiesSelected = ISFILTERED ( 'VA_columns hierarchies'[STRUCTURE_NAME])
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2f4b9b66-d2ab-4fd8-836a-4d1fc4ea1b9b
+
+	measure UserHierarchiesSelected = ```
+			COUNTROWS ( 'VA_User Hierarchies' ) < 
+			CALCULATE ( COUNTROWS ( 'VA_User Hierarchies' ), ALLEXCEPT ( 'VA_User Hierarchies', 'VA_User Hierarchies'[TABLE_NAME] ) )
+			```
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6a2676ba-eb40-490d-a26c-21e2e3d0a53d
+
+	measure 'Table Size' =
+			IF (
+			    [TableSelected] && NOT [NonColumnSelected],
+			    [Columns Total Size] + [User Hierarchies Size]
+			        + [Relationships Size]
+			)
+		formatString: #,0
+		lineageTag: 457f9a06-456f-41b4-838d-3ffab3c76c7b
+
+	measure RelationshipsSelected = ```
+			COUNTROWS ( 'VA_Relationship Size' ) < 
+			CALCULATE ( COUNTROWS ( 'VA_Relationship Size' ), ALLEXCEPT ( 'VA_Relationship Size', 'VA_Relationship Size'[TABLE_NAME] ) )
+			```
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: acb19708-ca7c-4d1f-b7e9-11cab38ecd30
+
+	measure NonColumnSelected = [RelationshipsSelected] || [UserHierarchiesSelected] || [ColumnsHierarchiesSelected]
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3e0505d1-2b6e-4f56-8b52-4deffbacb1a2
+
+	measure 'Data Size' = IF ( NOT [NonColumnSelected], SUM ( 'VA_column Segments'[USED_SIZE] ) )
+		formatString: #,0
+		lineageTag: c98e4816-cafe-486d-9a2b-2784055ae4df
+
+	measure 'Columns Hierarchies Size' =
+			IF (
+			    AND (
+			        [ColumnsHierarchiesSelected] || NOT [NonColumnSelected],
+			        NOT [ColumnsSegmentsSelected]
+			    ),
+			    SUM ( 'VA_Columns Hierarchies'[USED_SIZE] )
+			)
+		formatString: #,0
+		lineageTag: 261b791b-fcce-4a3f-9c00-1abb42774eb4
+
+	measure 'Dictionary Size' =
+			IF (
+			    AND (
+			        NOT [NonColumnSelected],
+			        NOT [ColumnsSegmentsSelected]
+			    ),
+			
+			SUM ( 'VA_Columns'[DICTIONARY_SIZE_BYTES] ) )
+		formatString: #,0
+		lineageTag: 59245fc1-4bc4-4130-9fa0-a0ed841bf711
+
+	measure 'Columns Total Size' = IF ( NOT [NonColumnSelected], [Dictionary Size]+[Columns Hierarchies Size]+[Data Size] )
+		formatString: #,0
+		lineageTag: f10c7fb6-570d-4d6c-a14b-acbd365b09a7
+
+	measure 'Max To Cardinality' = IF ( AND ( NOT [ColumnsSegmentsSelected], NOT ( [UserHierarchiesSelected]|| [ColumnSelected] ) ), CALCULATE ( MAX ( VA_Relationships[To Cardinality] ), 'va_Columns' ) )
+		formatString: #,0
+		lineageTag: 04ce1f28-ef1f-45a6-819f-bcab8046144e
+
+	measure 'Max From Cardinality' = IF ( AND ( NOT [ColumnsSegmentsSelected], NOT ( [UserHierarchiesSelected]|| [ColumnSelected] ) ), CALCULATE ( MAX ( va_Relationships[From Cardinality] ), 'va_Columns' ) )
+		formatString: #,0
+		lineageTag: 3e02ae4c-adec-4ebb-933b-4d8dd66fc4c3
+
+	measure 'Relationships Size' = IF ( AND ( NOT [ColumnsSegmentsSelected], NOT ( [UserHierarchiesSelected]|| [ColumnSelected] ) ), CALCULATE ( SUM ( 'va_Relationships'[Size] ), 'va_Columns' ) )
+		formatString: #,0
+		lineageTag: 0aa19a56-ea59-408f-b0b4-94be073272cb
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'User Hierarchies Size' = IF (  ( NOT [ColumnsSegmentsSelected]) && (NOT [ColumnSelected] ) && ([UserHierarchiesSelected] || NOT [NonColumnSelected] ) , CALCULATE ( SUM ( 'va_User Hierarchies'[USED_SIZE] ), 'va_Columns' ) )
+		formatString: #,0
+		lineageTag: 04c20134-24ad-4f83-8c7a-5e07149b779b
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Cardinality =
+			IF (
+			
+			    AND (
+			        NOT [NonColumnSelected],
+			        NOT [ColumnsSegmentsSelected]
+			    ),
+			IF (
+			    ISFILTERED ( 'va_Columns'[COLUMN_NAME] ) || ISFILTERED ( 'va_Columns'[ColumnKey] ) || ISFILTERED ( 'va_Columns'[TableColumn] ),
+			    IF (
+			        HASONEVALUE ( 'va_Columns'[ColumnKey] ),
+			        VALUES ( 'va_Columns'[COLUMN_CARDINALITY] )
+			    ),
+			    [Rows]
+			   )
+			)
+		formatString: #,0
+		lineageTag: e02ec07c-9f79-4176-8268-873e6a60432e
+
+	measure Rows =
+			SUMX (
+			        SUMMARIZE (
+			            'va_Column Segments',
+			            'va_Column Segments'[TABLE_NAME],
+			            'va_Column Segments'[PARTITION_NAME],
+			            'va_Column Segments'[SEGMENT_NUMBER]
+			        ),
+			        CALCULATE (
+			            AVERAGEX (
+			                'va_Column Segments',
+			                'va_Column Segments'[SEGMENT_ROWS]
+			            )
+			        )
+			    )
+		formatString: #,0
+		lineageTag: 368c5023-d4a0-4478-a951-06452586b572
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Segments #' = IF ( NOT [NonColumnSelected],COUNTROWS ( SUMMARIZE ( 'va_Column Segments', 'va_Column Segments'[TABLE_NAME], 'va_Column Segments'[TABLE_PARTITION_NUMBER], 'va_Column Segments'[SEGMENT_NUMBER] ) ))
+		formatString: 0
+		lineageTag: 071385bf-6153-4fef-b9a7-938f267e4fbe
+
+	measure 'Partitions #' = IF ( NOT [NonColumnSelected],COUNTROWS ( SUMMARIZE ( 'va_Column Segments', 'va_Column Segments'[TABLE_NAME], 'va_Column Segments'[TABLE_PARTITION_NUMBER] ) ))
+		formatString: 0
+		lineageTag: 590e3a01-25e3-43e1-972c-77679062fe28
+
+	measure 'Columns #' =
+			IF ( AND (
+			        NOT [NonColumnSelected],
+			        NOT [ColumnsSegmentsSelected]
+			    ),COUNTROWS ( 'va_Columns' ))
+		formatString: 0
+		lineageTag: 93545fc4-460f-4147-9c1d-5e618e28b0d9
+
+	measure 'Database Size %' =
+			IF ( ISBLANK ( [Table Size] ),
+			DIVIDE ( [Columns Total Size], CALCULATE ( [Table Size], ALL ( 'va_Column Segments' ) ) ),
+			
+			DIVIDE ( [Table Size], CALCULATE ( [Table Size], ALL ( 'va_Column Segments' ) ) )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: cddec90a-ff78-4c47-8c6e-8ddd4f26371c
+
+	measure Encoding =
+			CALCULATE (
+			    SWITCH (
+			        COUNTROWS ( VALUES ( 'va_Columns'[COLUMN_ENCODING] ) ) + 0,
+			        0, BLANK (),
+			        1, VALUES ( 'va_Columns'[COLUMN_ENCODING] )
+			            & IF ( HASONEVALUE ( 'va_Columns'[ColumnKey] ), "", " (All)" ),
+			        " Many"
+			    ),
+			    FILTER (
+			        VALUES ( 'va_Columns'[COLUMN_NAME] ),
+			        'va_Columns'[COLUMN_NAME] <> "RowNumber"
+			    )
+			)
+		lineageTag: 2810bfcf-9939-47af-aaa4-8f37a7fc874c
+
+	measure Typename =
+			CALCULATE (
+			    SWITCH (
+			        COUNTROWS ( VALUES ( 'va_Columns'[Data Type] ) ) + 0,
+			        0, BLANK (),
+			        1, VALUES ( 'va_Columns'[Data Type] )
+			            & IF ( HASONEVALUE ( 'va_Columns'[ColumnKey] ), "", " (All)" ),
+			        " Many"
+			    ),
+			    FILTER (
+			        VALUES ( 'va_Columns'[COLUMN_NAME] ),
+			        'va_Columns'[COLUMN_NAME] <> "RowNumber"
+			    )
+			)
+		lineageTag: fefc4224-c403-44b8-83aa-d9d5ecc4ea53
+
+	measure 'Table Size %' = IF ( ISFILTERED ( 'va_Columns'[COLUMN_NAME] ) && NOT [NonColumnSelected], DIVIDE ( [Columns Total Size], CALCULATE ( [Columns Total Size], ALLEXCEPT ( 'va_Column Segments', 'va_Columns'[TABLE_NAME] ) ) ) )
+		lineageTag: 3bd91c00-cf18-47c7-9c9d-2f53c4497b06
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Database Size' = dIVIDE ( [Columns Total Size], CALCULATE ( [Table Size], ALL ( 'va_Column Segments' ) ) )
+		lineageTag: 481cc90d-2741-4591-aef2-5059cb4ebf7d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Table Size GB' = [Table Size]/1024/1024/1024
+		lineageTag: a58ef442-c184-4fe1-8762-7ec02cd38af9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TABLE_NAME
+		dataType: string
+		lineageTag: 4b9d3650-2d9c-4f5a-a23a-ee64c2513d78
+		summarizeBy: none
+		sourceColumn: TABLE_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column COLUMN_ID
+		dataType: string
+		isHidden
+		lineageTag: 96eefc4f-1a8d-405a-b7e9-691926bf3885
+		summarizeBy: none
+		sourceColumn: COLUMN_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column COLUMN_NAME
+		dataType: string
+		lineageTag: 8627178b-79c8-418e-8f8a-a527d8a785c2
+		summarizeBy: none
+		sourceColumn: COLUMN_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Type'
+		dataType: string
+		lineageTag: 15c04c92-0370-423a-8443-6a4f4823262f
+		summarizeBy: none
+		sourceColumn: Data Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column DICTIONARY_SIZE_BYTES
+		dataType: double
+		isHidden
+		lineageTag: f7782ed9-c8c4-448d-a042-b80e8ea5a022
+		summarizeBy: sum
+		sourceColumn: DICTIONARY_SIZE_BYTES
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COLUMN_ENCODING_INT
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: eac173a2-83e8-46a5-8679-5b4a84ea6e08
+		summarizeBy: sum
+		sourceColumn: COLUMN_ENCODING_INT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ColumnKey = 'VA_columns'[TABLE_NAME] & "-" & 'VA_columns'[COLUMN_ID]
+		isHidden
+		lineageTag: 93919bcc-9c5b-45ca-84c2-938f92faefbc
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column COLUMN_CARDINALITY = RELATED( 'va_Columns Cardinality'[COLUMN_CARDINALITY] )
+		isHidden
+		formatString: 0
+		lineageTag: 55133134-f49e-4ddd-ba8a-77eed3aa5f22
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column SELECTIVITY = IF('VA_Columns'[COLUMN_CARDINALITY]>0,DIVIDE('VA_Columns'[COLUMN_CARDINALITY], RELATED(VA_Tables[ROWS_IN_TABLE] ) ) )
+		isHidden
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: cae5a5ca-4b99-4bc6-a3f2-41da8eea6330
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATA_SIZE = CALCULATE(SUM('VA_column segments'[USED_SIZE]))
+		isHidden
+		lineageTag: c8e4c252-f023-4b5a-95d5-d93bb8fcec87
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column HIERARCHY_SIZE = CALCULATE(SUM('VA_columns hierarchies'[USED_SIZE]))
+		isHidden
+		lineageTag: 7a5c5f42-3743-499a-8130-9a9e20def516
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COLUMN_ENCODING = IF('VA_Columns'[COLUMN_ENCODING_INT] = 1, "HASH", IF('VA_Columns'[COLUMN_ENCODING_INT] = 2, "VALUE", "UNKNOWN" ) )
+		lineageTag: eff3ac01-208f-4fe9-9894-15a151dc735f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column TableColumn = 'VA_Columns'[TABLE_NAME] & "-" & 'VA_Columns'[COLUMN_NAME]
+		lineageTag: a0d990ad-4c2d-47a1-8a13-ae05fb48c21e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_SIZE = 'va_Columns'[DATA_SIZE] + 'va_Columns'[DICTIONARY_SIZE_BYTES] + 'va_Columns'[HIERARCHY_SIZE]
+		isHidden
+		lineageTag: 5530cd5b-bff2-49f6-a542-1e97a17e687f
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	hierarchy Table-Columns
+		lineageTag: e58a3cfb-f25c-4cc5-98b0-b7929e60c84b
+
+		level Table
+			lineageTag: 6724d0c0-03bf-4bca-a025-89e3cd077e5e
+			column: TABLE_NAME
+
+		level Column
+			lineageTag: 507b8146-fee3-4e6c-97e5-83173769fcb4
+			column: COLUMN_NAME
+
+	partition VA_columns-42640810-cab6-4d44-a880-87560cd91d3c = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT#(lf)    DIMENSION_NAME AS TABLE_NAME, #(lf)    COLUMN_ID AS COLUMN_ID, #(lf)    ATTRIBUTE_NAME AS COLUMN_NAME, #(lf)    DATATYPE AS [Data Type],#(lf)    DICTIONARY_SIZE AS DICTIONARY_SIZE_BYTES,#(lf)    COLUMN_ENCODING AS COLUMN_ENCODING_INT#(lf)FROM  $SYSTEM.DISCOVER_STORAGE_TABLE_COLUMNS#(lf)WHERE COLUMN_TYPE = 'BASIC_DATA'"])
+				in
+				    Source
+
+	annotation PBI_QueryRelationships = {"columnCount":6,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/VA_columns/Source.{TABLE_NAME,0}","Section1/VA_columns/Source.{COLUMN_ID,1}","Section1/VA_columns/Source.{COLUMN_NAME,2}","Section1/VA_columns/Source.{Data Type,3}","Section1/VA_columns/Source.{DICTIONARY_SIZE_BYTES,4}","Section1/VA_columns/Source.{COLUMN_ENCODING_INT,5}"],"ColumnCount":6,"KeyColumnNames":[],"ColumnIdentities":["Section1/VA_columns/Source.{TABLE_NAME,0}","Section1/VA_columns/Source.{COLUMN_ID,1}","Section1/VA_columns/Source.{COLUMN_NAME,2}","Section1/VA_columns/Source.{Data Type,3}","Section1/VA_columns/Source.{DICTIONARY_SIZE_BYTES,4}","Section1/VA_columns/Source.{COLUMN_ENCODING_INT,5}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

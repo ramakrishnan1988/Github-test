@@ -1,0 +1,122 @@
+table 'VA_Table Expressions'
+	isHidden
+	lineageTag: 2e789c6d-cf6d-43ab-ae0b-8da638b5e0fc
+
+	column TableID
+		dataType: double
+		isHidden
+		lineageTag: 35c6160e-51a6-4c87-b132-456a135e36fe
+		summarizeBy: count
+		sourceColumn: TableID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Table
+		dataType: string
+		isHidden
+		lineageTag: 80a0fb52-2a88-4caa-a484-ee0eefff0f41
+		summarizeBy: none
+		sourceColumn: Table
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		isHidden
+		lineageTag: 35772cd3-19c7-4cdf-bf44-2f09b0f334e6
+		summarizeBy: none
+		sourceColumn: Description
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Expression
+		dataType: string
+		isHidden
+		lineageTag: 8e3b8224-d9fb-487b-a150-782c552bf8d6
+		summarizeBy: none
+		sourceColumn: Expression
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 143333d2-7336-44eb-8142-e79b76b6b2fd
+		summarizeBy: sum
+		sourceColumn: State
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mode
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8967eb58-9f99-4db6-91b7-d37d6873902c
+		summarizeBy: sum
+		sourceColumn: Mode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataView
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 40392c24-d73c-4df2-b30a-4f8d8a688581
+		summarizeBy: sum
+		sourceColumn: DataView
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SystemFlags
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5d485814-af14-4d3c-967e-a763ebc00e8a
+		summarizeBy: sum
+		sourceColumn: SystemFlags
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ErrorMessage
+		dataType: string
+		isHidden
+		lineageTag: 4c8ad3cb-e181-4e87-b281-1956776f09fd
+		summarizeBy: none
+		sourceColumn: ErrorMessage
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'VA_Table Expressions-497e59a8-ecfc-468f-b950-5314102e7874' = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT #(lf)    [TableID], #(lf)    [Name] AS [Table],#(lf)    [Description],#(lf)    TRIM ( [QueryDefinition] ) AS [Expression],#(lf)    [State],#(lf)    [Mode],#(lf)    [DataView],#(lf)    [SystemFlags],#(lf)    [ErrorMessage]#(lf)FROM [$system].[TMSCHEMA_PARTITIONS]#(lf)WHERE [Type] = 2"])
+				in
+				    Source
+
+	annotation PBI_QueryRelationships = {"columnCount":9,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/VA_Table Expressions/Source.{TableID,0}","Section1/VA_Table Expressions/Source.{Table,1}","Section1/VA_Table Expressions/Source.{Description,2}","Section1/VA_Table Expressions/Source.{Expression,3}","Section1/VA_Table Expressions/Source.{State,4}","Section1/VA_Table Expressions/Source.{Mode,5}","Section1/VA_Table Expressions/Source.{DataView,6}","Section1/VA_Table Expressions/Source.{SystemFlags,7}","Section1/VA_Table Expressions/Source.{ErrorMessage,8}"],"ColumnCount":9,"KeyColumnNames":[],"ColumnIdentities":["Section1/VA_Table Expressions/Source.{TableID,0}","Section1/VA_Table Expressions/Source.{Table,1}","Section1/VA_Table Expressions/Source.{Description,2}","Section1/VA_Table Expressions/Source.{Expression,3}","Section1/VA_Table Expressions/Source.{State,4}","Section1/VA_Table Expressions/Source.{Mode,5}","Section1/VA_Table Expressions/Source.{DataView,6}","Section1/VA_Table Expressions/Source.{SystemFlags,7}","Section1/VA_Table Expressions/Source.{ErrorMessage,8}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

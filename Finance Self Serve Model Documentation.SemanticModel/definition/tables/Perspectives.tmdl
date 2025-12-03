@@ -1,0 +1,72 @@
+table Perspectives
+	lineageTag: 4714a82a-e7bd-4e30-b381-0d02bcb48596
+
+	measure 'Perspectives Count' = DISTINCTCOUNT([ID])+0
+		formatString: #,0
+		lineageTag: 2852bc80-69d9-4dc8-bb2b-adbf34f2f77a
+
+	column ID
+		dataType: double
+		lineageTag: a609be32-8a47-421e-aa1a-e8790951495e
+		dataCategory: PostalCode
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ModelID
+		dataType: double
+		lineageTag: df5677b0-df9e-4cc9-a275-2ea8a2d33b15
+		summarizeBy: count
+		sourceColumn: ModelID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Perspective Name'
+		dataType: string
+		lineageTag: 7504eb14-0fca-4a26-b4df-c6e91793eb52
+		summarizeBy: none
+		sourceColumn: Perspective Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Perspective Description'
+		dataType: string
+		lineageTag: cd49a799-0cc4-4b63-9d77-31dcc2bc4be9
+		summarizeBy: none
+		sourceColumn: Perspective Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Perspective ModifiedTime'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: afa94248-89d5-4e6d-9fc5-2849fb350dee
+		summarizeBy: none
+		sourceColumn: Perspective ModifiedTime
+
+		variation Variation
+			isDefault
+			relationship: 8282f9da-9cbe-4459-928c-f3d5fd256a83
+			defaultHierarchy: LocalDateTable_edcf82a5-8def-424b-95a6-17da66e43adf.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Perspectives = m
+		mode: import
+		source = ```
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="select [ID], [ModelID], [Name], [Description], [ModifiedTime] from $SYSTEM.TMSCHEMA_PERSPECTIVES"]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"Name", "Perspective Name"}, {"Description", "Perspective Description"}, {"ModifiedTime", "Perspective ModifiedTime"}})	
+				in
+				    #"Renamed Columns"
+				```
+
+	annotation PBI_QueryRelationships = {"columnCount":5,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Perspectives/Source.{ID,0}","Section1/Perspectives/Source.{ModelID,1}","Section1/Perspectives/Source.{Name,2}","Section1/Perspectives/Source.{Description,3}","Section1/Perspectives/Source.{ModifiedTime,4}"],"ColumnCount":5,"KeyColumnNames":[],"ColumnIdentities":["Section1/Perspectives/Source.{ID,0}","Section1/Perspectives/Source.{ModelID,1}","Section1/Perspectives/Source.{Name,2}","Section1/Perspectives/Source.{Description,3}","Section1/Perspectives/Source.{ModifiedTime,4}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

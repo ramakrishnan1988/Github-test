@@ -1,0 +1,36 @@
+table Cardinality
+	isHidden
+	lineageTag: 6ba5c793-48ad-446e-9fb2-12ace7ef806c
+
+	column 'Cardinality ID'
+		dataType: int64
+		lineageTag: 95687a10-99a0-416f-adf3-9d32f531235e
+		summarizeBy: count
+		sourceColumn: Cardinality ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cardinality
+		dataType: string
+		lineageTag: 5d1000e2-4762-454a-95ad-47e4fae7eef2
+		summarizeBy: none
+		sourceColumn: Cardinality
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Cardinality = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUfLPS1WK1YlWMgKyfRPzKpViYwE=", BinaryEncoding.Base64), Compression.Deflate))),
+				    #"Renamed Columns" = Table.RenameColumns(Source, {{"Column1", "Cardinality ID"}, {"Column2", "Cardinality"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns", {{"Cardinality ID", Int64.Type}, {"Cardinality", type text}})
+				 in
+				    #"Changed Type"
+
+	annotation PBI_QueryRelationships = {"columnCount":2,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Cardinality/Changed Type.{Cardinality ID,0}","Section1/Cardinality/Changed Type.{Cardinality,1}"],"ColumnCount":2,"KeyColumnNames":[],"ColumnIdentities":["Section1/Cardinality/Changed Type.{Cardinality ID,0}","Section1/Cardinality/Changed Type.{Cardinality,1}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

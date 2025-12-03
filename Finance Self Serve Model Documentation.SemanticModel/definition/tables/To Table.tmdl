@@ -1,0 +1,68 @@
+table 'To Table'
+	lineageTag: 79fe375e-59f4-4b26-9bfb-014d8765dd19
+
+	column ID
+		dataType: double
+		lineageTag: 5df070c7-b471-428e-88c8-3d20c8fe8a07
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ModelID
+		dataType: double
+		lineageTag: cc1d1848-9207-44d6-ad5a-6d4fd267b84a
+		summarizeBy: none
+		sourceColumn: ModelID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'To Table Name'
+		dataType: string
+		lineageTag: afc1f462-4e5e-48d2-82b5-dc57eac89f17
+		summarizeBy: none
+		sourceColumn: To Table Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Table Data Category'
+		dataType: string
+		lineageTag: c766e56f-136f-4661-b4fc-6b2d5a6c972c
+		summarizeBy: none
+		sourceColumn: To Table Data Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Table Description'
+		dataType: string
+		lineageTag: ad999a0a-9361-46ca-a81f-a8f89fee6c28
+		summarizeBy: none
+		sourceColumn: To Table Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Table Is Hidden'
+		dataType: boolean
+		lineageTag: 0c43fade-7049-4258-83f6-a13de52c851c
+		summarizeBy: none
+		sourceColumn: To Table Is Hidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'To Table' = m
+		mode: import
+		source =
+				let
+				     Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [ModelID], [Name], [DataCategory], [Description], [IsHidden] from $SYSTEM.TMSCHEMA_TABLES"]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"DataCategory", "To Table Data Category"}, {"IsHidden", "To Table Is Hidden"}, {"Name", "To Table Name"}, {"Description", "To Table Description"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_QueryRelationships = {"columnCount":6,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/To Table/Source.{ID,0}","Section1/To Table/Source.{ModelID,1}","Section1/To Table/Source.{Name,2}","Section1/To Table/Source.{DataCategory,3}","Section1/To Table/Source.{Description,4}","Section1/To Table/Source.{IsHidden,5}"],"ColumnCount":6,"KeyColumnNames":[],"ColumnIdentities":["Section1/To Table/Source.{ID,0}","Section1/To Table/Source.{ModelID,1}","Section1/To Table/Source.{Name,2}","Section1/To Table/Source.{DataCategory,3}","Section1/To Table/Source.{Description,4}","Section1/To Table/Source.{IsHidden,5}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

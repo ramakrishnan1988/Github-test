@@ -1,0 +1,143 @@
+table 'Hierarchy Levels'
+	lineageTag: b9df3d62-f603-493c-978d-8ea0ce9877d9
+
+	measure 'Hierarchy Count' = DISTINCTCOUNT([Hierarchy ID])+0
+		formatString: 0
+		lineageTag: d1aef3cc-b10e-4010-996b-634e51d41e90
+
+	column ID
+		dataType: double
+		lineageTag: 4b316ab7-45a4-4138-8265-5c64a0ab1c9d
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Hierarchy ID'
+		dataType: double
+		lineageTag: 3950a263-c273-4718-8c68-2d68417648ea
+		summarizeBy: count
+		sourceColumn: Hierarchy ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Ordinal
+		dataType: int64
+		lineageTag: b561fea4-0e83-4ff1-b89f-5a3b22135b0b
+		summarizeBy: none
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Hierarchy Level Name'
+		dataType: string
+		lineageTag: ecd87210-0d57-4d65-afd8-b8eb25cfb14d
+		summarizeBy: none
+		sourceColumn: Hierarchy Level Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: bf71e560-b732-4854-93b5-885893e719ac
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Column ID'
+		dataType: double
+		lineageTag: 4fd0a0d4-80fc-492f-b26b-6b87728e8a1b
+		summarizeBy: count
+		sourceColumn: Column ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Modified Time'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 504a82a3-1ffc-43e6-9af8-415b75b3fce4
+		summarizeBy: none
+		sourceColumn: Modified Time
+
+		variation Variation
+			isDefault
+			relationship: 3bf95de5-5978-4db1-a6bf-fe7e6a5931ca
+			defaultHierarchy: LocalDateTable_21cc2207-5c37-4f39-9290-50ef14feece4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Column Name'
+		dataType: string
+		lineageTag: edb5be3f-50c4-406d-9b72-b7d39345b180
+		summarizeBy: none
+		sourceColumn: Column Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Table ID'
+		dataType: double
+		lineageTag: ec013a62-c87a-4c84-8fec-7011a89658ac
+		summarizeBy: none
+		sourceColumn: Table ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hierarchy Name'
+		dataType: string
+		lineageTag: e494137f-9363-4e23-af1d-54040f6e4981
+		summarizeBy: none
+		sourceColumn: Hierarchy Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hierarchy Is Hidden'
+		dataType: boolean
+		lineageTag: 52c1045c-6d60-4c68-91c2-84cf9571ed61
+		summarizeBy: none
+		sourceColumn: Hierarchy Is Hidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hierarchy Storage ID'
+		dataType: double
+		lineageTag: f478963b-1ba1-4160-af2d-ade4c7cca67a
+		summarizeBy: count
+		sourceColumn: Hierarchy Storage ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hierarchy Display Folder'
+		dataType: string
+		lineageTag: b8767566-6edb-49ee-be08-0a641c955311
+		summarizeBy: none
+		sourceColumn: Hierarchy Display Folder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Hierarchy Levels' = m
+		mode: import
+		source =
+				let
+				    Source = HierarchyLevelsStage,
+				    #"Merged Queries" = Table.NestedJoin(#"Source",{"Column ID"},Columns,{"ID"},"NewColumn",JoinKind.LeftOuter),
+				    #"Expanded NewColumn" = Table.ExpandTableColumn(#"Merged Queries", "NewColumn", {"Explicit Name"}, {"NewColumn.Explicit Name"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Expanded NewColumn",{{"NewColumn.Explicit Name", "Column Name"}}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Renamed Columns1",{"Hierarchy ID"},Hierarchies,{"ID"},"NewColumn",JoinKind.LeftOuter),
+				    #"Expanded NewColumn1" = Table.ExpandTableColumn(#"Merged Queries1", "NewColumn", {"Table ID", "Name", "Is Hidden", "Hierarchy Storage ID", "Display Folder"}, {"NewColumn.Table ID", "NewColumn.Name", "NewColumn.Is Hidden", "NewColumn.Hierarchy Storage ID", "NewColumn.Display Folder"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Expanded NewColumn1",{{"NewColumn.Table ID", "Table ID"}, {"NewColumn.Name", "Hierarchy Name"}, {"NewColumn.Is Hidden", "Hierarchy Is Hidden"}, {"NewColumn.Hierarchy Storage ID", "Hierarchy Storage ID"}, {"NewColumn.Display Folder", "Hierarchy Display Folder"}, {"Name", "Hierarchy Level Name"}})
+				in
+				    #"Renamed Columns2"
+
+	annotation PBI_QueryRelationships = {"columnCount":13,"keyColumnNames":[],"queryRelationships":[{"keyColumnCount":1,"keyColumn":5,"otherKeyColumnIdentity":"Section1/Columns Stage/Source.{ID,0}","KeyColumnCount":1},{"keyColumnCount":1,"keyColumn":1,"otherKeyColumnIdentity":"Section1/Hierarchies/Source.{ID,0}","KeyColumnCount":1}],"columnIdentities":["Section1/HierarchyLevelsStage/Source.{ID,0}","Section1/HierarchyLevelsStage/Source.{HierarchyID,1}","Section1/HierarchyLevelsStage/Source.{Ordinal,2}","Section1/HierarchyLevelsStage/Source.{Name,3}","Section1/HierarchyLevelsStage/Source.{Description,4}","Section1/HierarchyLevelsStage/Source.{ColumnID,5}","Section1/HierarchyLevelsStage/Source.{ModifiedTime,6}","Section1/Hierarchy Levels/Expanded NewColumn.{NewColumn.Explicit Name,7}","Section1/Hierarchies/Source.{TableID,1}","Section1/Hierarchies/Source.{Name,2}","Section1/Hierarchies/Source.{IsHidden,4}","Section1/Hierarchies/Source.{HierarchyStorageID,5}","Section1/Hierarchies/Source.{DisplayFolder,8}"],"ColumnCount":13,"KeyColumnNames":[],"ColumnIdentities":["Section1/HierarchyLevelsStage/Source.{ID,0}","Section1/HierarchyLevelsStage/Source.{HierarchyID,1}","Section1/HierarchyLevelsStage/Source.{Ordinal,2}","Section1/HierarchyLevelsStage/Source.{Name,3}","Section1/HierarchyLevelsStage/Source.{Description,4}","Section1/HierarchyLevelsStage/Source.{ColumnID,5}","Section1/HierarchyLevelsStage/Source.{ModifiedTime,6}","Section1/Hierarchy Levels/Expanded NewColumn.{NewColumn.Explicit Name,7}","Section1/Hierarchies/Source.{TableID,1}","Section1/Hierarchies/Source.{Name,2}","Section1/Hierarchies/Source.{IsHidden,4}","Section1/Hierarchies/Source.{HierarchyStorageID,5}","Section1/Hierarchies/Source.{DisplayFolder,8}"],"RelationshipInfo":[{"keyColumnCount":1,"keyColumn":5,"otherKeyColumnIdentity":"Section1/Columns Stage/Source.{ID,0}","KeyColumnCount":1},{"keyColumnCount":1,"keyColumn":1,"otherKeyColumnIdentity":"Section1/Hierarchies/Source.{ID,0}","KeyColumnCount":1}]}
+
+	annotation PBI_ResultType = Table
+

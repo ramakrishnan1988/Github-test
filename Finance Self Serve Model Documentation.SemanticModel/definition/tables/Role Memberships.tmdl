@@ -1,0 +1,90 @@
+table 'Role Memberships'
+	lineageTag: 5d4a497d-f3da-4c13-acdf-c8e086600021
+
+	measure 'Role Member Count' = DISTINCTCOUNT([ID])
+		formatString: 0
+		lineageTag: 776848e4-2c73-42ff-bad7-0bce6d44544e
+
+	column ID
+		dataType: double
+		lineageTag: b2e97138-a7a9-4796-8f07-644539bb8e11
+		dataCategory: PostalCode
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Role ID'
+		dataType: double
+		lineageTag: d9312908-6aaa-4e62-a372-93b2cf82f0ce
+		summarizeBy: none
+		sourceColumn: Role ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Member Name'
+		dataType: string
+		lineageTag: c7dc28ae-b8ea-4436-8989-944c27100b07
+		summarizeBy: none
+		sourceColumn: Member Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Member ID'
+		dataType: string
+		lineageTag: 1ba967ac-6a8c-4a67-9761-3981386f290b
+		summarizeBy: none
+		sourceColumn: Member ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Identity Provider'
+		dataType: string
+		lineageTag: c14a4ba0-1b2c-42b0-a5a7-fcae2a0d754e
+		summarizeBy: none
+		sourceColumn: Identity Provider
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Member Type'
+		dataType: int64
+		lineageTag: 69fd0323-db01-4b59-8fad-15cf9df5506c
+		summarizeBy: sum
+		sourceColumn: Member Type
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Role Member Modified Time'
+		dataType: dateTime
+		lineageTag: f9aa4766-04fc-4644-bc77-91278c3f5167
+		summarizeBy: none
+		sourceColumn: Role Member Modified Time
+
+		variation Variation
+			isDefault
+			relationship: 8283783c-3c17-481f-929a-fcf8cd9c30e2
+			defaultHierarchy: LocalDateTable_89cf5bcc-2f5a-4cea-8d92-5186bb7b9598.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Role Memberships' = m
+		mode: import
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [RoleID], [MemberName], [MemberID], IdentityProvider, MemberType, ModifiedTime from $SYSTEM.TMSCHEMA_ROLE_MEMBERSHIPS"]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"RoleID", "Role ID"}, {"MemberName", "Member Name"}, {"MemberID", "Member ID"}, {"IdentityProvider", "Identity Provider"}, {"MemberType", "Member Type"}, {"ModifiedTime", "Role Member Modified Time"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_QueryRelationships = {"columnCount":7,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Role Memberships/Source.{ID,0}","Section1/Role Memberships/Source.{RoleID,1}","Section1/Role Memberships/Source.{MemberName,2}","Section1/Role Memberships/Source.{MemberID,3}","Section1/Role Memberships/Source.{IdentityProvider,4}","Section1/Role Memberships/Source.{MemberType,5}","Section1/Role Memberships/Source.{ModifiedTime,6}"],"ColumnCount":7,"KeyColumnNames":[],"ColumnIdentities":["Section1/Role Memberships/Source.{ID,0}","Section1/Role Memberships/Source.{RoleID,1}","Section1/Role Memberships/Source.{MemberName,2}","Section1/Role Memberships/Source.{MemberID,3}","Section1/Role Memberships/Source.{IdentityProvider,4}","Section1/Role Memberships/Source.{MemberType,5}","Section1/Role Memberships/Source.{ModifiedTime,6}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

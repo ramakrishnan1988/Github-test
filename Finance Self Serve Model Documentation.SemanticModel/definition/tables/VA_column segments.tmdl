@@ -1,0 +1,135 @@
+table 'VA_column segments'
+	lineageTag: d3e2edea-7fce-45b4-b7a3-3e6b88d30890
+
+	measure USED_SIZE_M = SUM('VA_column segments'[USED_SIZE])
+		lineageTag: d7785f88-bc19-4f83-ad18-4aaf10ca0e52
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TABLE_NAME
+		dataType: string
+		isHidden
+		lineageTag: d775c975-b9e3-4030-98d0-741e28657e34
+		summarizeBy: none
+		sourceColumn: TABLE_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PARTITION_NAME
+		dataType: string
+		lineageTag: 9ef0781d-6ee5-4986-909a-9b11199de438
+		summarizeBy: none
+		sourceColumn: PARTITION_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column COLUMN_NAME
+		dataType: string
+		isHidden
+		lineageTag: a4dce313-cd02-4c89-9a56-023cd104379b
+		summarizeBy: none
+		sourceColumn: COLUMN_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEGMENT_NUMBER
+		dataType: int64
+		formatString: 0
+		lineageTag: 55c4aebe-f666-4a80-9101-038b2bc291c0
+		summarizeBy: sum
+		sourceColumn: SEGMENT_NUMBER
+
+		annotation SummarizationSetBy = Automatic
+
+	column TABLE_PARTITION_NUMBER
+		dataType: int64
+		formatString: 0
+		lineageTag: e98fe16f-d36d-4206-a9b8-f631d926a3d6
+		summarizeBy: sum
+		sourceColumn: TABLE_PARTITION_NUMBER
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEGMENT_ROWS
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a95d83d9-6456-498c-9a0c-08132c0687f5
+		summarizeBy: sum
+		sourceColumn: SEGMENT_ROWS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column USED_SIZE
+		dataType: double
+		isHidden
+		lineageTag: 0390a7b0-0b79-47d6-86c7-639cfd27fa85
+		summarizeBy: sum
+		sourceColumn: USED_SIZE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COMPRESSION_TYPE
+		dataType: string
+		lineageTag: 966598bf-aa58-41d4-ac89-609256404a7e
+		summarizeBy: none
+		sourceColumn: COMPRESSION_TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column BITS_COUNT
+		dataType: int64
+		formatString: 0
+		lineageTag: a17fadb5-4d54-4aa2-83ea-4d4f8c8cca05
+		summarizeBy: sum
+		sourceColumn: BITS_COUNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column BOOKMARK_BITS_COUNT
+		dataType: int64
+		formatString: 0
+		lineageTag: 98e33e46-d18a-4428-9b13-a0683368bd25
+		summarizeBy: sum
+		sourceColumn: BOOKMARK_BITS_COUNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column VERTIPAQ_STATE
+		dataType: string
+		lineageTag: ad91308f-89f0-413f-8b76-4888905bfe5f
+		summarizeBy: none
+		sourceColumn: VERTIPAQ_STATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column ColumnKey = 'va_Column Segments'[TABLE_NAME] & "-" & 'va_Column Segments'[COLUMN_NAME]
+		isHidden
+		lineageTag: b7816dea-ae42-4e6e-877f-a45aa390ccdf
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'VA_column segments-31c11526-5655-43f0-8c88-a9ffd502e2e0' = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT #(lf)    DIMENSION_NAME AS TABLE_NAME, #(lf)    PARTITION_NAME, #(lf)    COLUMN_ID AS COLUMN_NAME, #(lf)    SEGMENT_NUMBER, #(lf)    TABLE_PARTITION_NUMBER, #(lf)    RECORDS_COUNT AS SEGMENT_ROWS,#(lf)    USED_SIZE,#(lf)    COMPRESSION_TYPE,#(lf)    BITS_COUNT,#(lf)    BOOKMARK_BITS_COUNT,#(lf)    VERTIPAQ_STATE#(lf)FROM $SYSTEM.DISCOVER_STORAGE_TABLE_COLUMN_SEGMENTS#(lf)WHERE RIGHT ( LEFT ( TABLE_ID, 2 ), 1 ) <> '$'"])
+				in
+				    Source
+
+	annotation PBI_QueryRelationships = {"columnCount":11,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/VA_column segments/Source.{TABLE_NAME,0}","Section1/VA_column segments/Source.{PARTITION_NAME,1}","Section1/VA_column segments/Source.{COLUMN_NAME,2}","Section1/VA_column segments/Source.{SEGMENT_NUMBER,3}","Section1/VA_column segments/Source.{TABLE_PARTITION_NUMBER,4}","Section1/VA_column segments/Source.{SEGMENT_ROWS,5}","Section1/VA_column segments/Source.{USED_SIZE,6}","Section1/VA_column segments/Source.{COMPRESSION_TYPE,7}","Section1/VA_column segments/Source.{BITS_COUNT,8}","Section1/VA_column segments/Source.{BOOKMARK_BITS_COUNT,9}","Section1/VA_column segments/Source.{VERTIPAQ_STATE,10}"],"ColumnCount":11,"KeyColumnNames":[],"ColumnIdentities":["Section1/VA_column segments/Source.{TABLE_NAME,0}","Section1/VA_column segments/Source.{PARTITION_NAME,1}","Section1/VA_column segments/Source.{COLUMN_NAME,2}","Section1/VA_column segments/Source.{SEGMENT_NUMBER,3}","Section1/VA_column segments/Source.{TABLE_PARTITION_NUMBER,4}","Section1/VA_column segments/Source.{SEGMENT_ROWS,5}","Section1/VA_column segments/Source.{USED_SIZE,6}","Section1/VA_column segments/Source.{COMPRESSION_TYPE,7}","Section1/VA_column segments/Source.{BITS_COUNT,8}","Section1/VA_column segments/Source.{BOOKMARK_BITS_COUNT,9}","Section1/VA_column segments/Source.{VERTIPAQ_STATE,10}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,48 @@
+{
+  "build": "13.0.1500.516",
+  "version": "1.0.4",
+  "author": {
+    "name": "OKViz - a trademark of SQLBI",
+    "email": "support@okviz.com"
+  },
+  "licenseTerms": "http://okviz.com/license/",
+  "privacyTerms": "http://okviz.com/privacy/",
+  "resources": [
+    {
+      "resourceId": "rId1",
+      "sourceType": 0,
+      "file": "resources/Smart_Filter_by_SQLBI.js"
+    },
+    {
+      "resourceId": "rId2",
+      "sourceType": 1,
+      "file": "resources/Smart_Filter_by_SQLBI.css"
+    },
+    {
+      "resourceId": "rId3",
+      "sourceType": 3,
+      "file": "resources/icon.png"
+    }
+  ],
+  "visual": {
+    "guid": "SmartFilterBySQLBI1458262140625",
+    "name": "Smart Filter by SQLBI",
+    "displayName": "Smart Filter by SQLBI",
+    "version": "1.0.4",
+    "description": "This smart component works like an observer, showing the current filters set in the report page, or like a slicer, allowing you to choose records from a drop-down list or search by typing a few letters.",
+    "supportUrl": "http://okviz.com/smart-filter/"
+  },
+  "images": {
+    "icon": {
+      "resourceId": "rId3"
+    }
+  },
+  "code": {
+    "javaScript": {
+      "resourceId": "rId1"
+    },
+    "css": {
+      "resourceId": "rId2"
+    }
+  }
+}

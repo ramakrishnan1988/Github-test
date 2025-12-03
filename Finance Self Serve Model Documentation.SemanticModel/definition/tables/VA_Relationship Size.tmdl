@@ -1,0 +1,81 @@
+table 'VA_Relationship Size'
+	isHidden
+	lineageTag: d3b334d2-7901-4b23-8505-cedcd724f2f3
+
+	column TABLE_NAME
+		dataType: string
+		isHidden
+		lineageTag: af80f135-5c62-4877-ad20-3601063d646f
+		summarizeBy: none
+		sourceColumn: TABLE_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column USED_SIZE
+		dataType: double
+		isHidden
+		lineageTag: 1e9bc07c-7b7f-4482-8c90-23b892a5344e
+		summarizeBy: sum
+		sourceColumn: USED_SIZE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RELATIONSHIP_ID
+		dataType: string
+		isHidden
+		lineageTag: bac0a9c4-5b38-4b8b-84bb-5a4816cc3deb
+		summarizeBy: none
+		sourceColumn: RELATIONSHIP_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PosID = ```
+			FIND(
+			    "(",
+			    'VA_Relationship Size'[RELATIONSHIP_ID],
+			    FIND ( 
+			        "(", 
+			        'VA_Relationship Size'[RELATIONSHIP_ID] 
+			    )+2+36,0
+			) + 1
+			
+			```
+		isHidden
+		formatString: 0
+		lineageTag: 8aaf6b8a-2608-4553-bbaa-a7ca71673552
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column RelationshipID = IF ( 'VA_Relationship Size'[PosID] > 0, VALUE ( MID ( 'VA_Relationship Size'[RELATIONSHIP_ID], 'VA_Relationship Size'[PosID], LEN ( 'VA_Relationship Size'[RELATIONSHIP_ID] ) - 'VA_Relationship Size'[PosID] ) ) )
+		isHidden
+		lineageTag: e69cf41a-0c8b-4383-ba0d-5a230f1c0a95
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'VA_Relationship Size-4d759232-1fa4-4720-aaa1-711f3fd0ed6c' = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT #(lf)    DIMENSION_NAME AS TABLE_NAME, #(lf)    USED_SIZE,#(lf)    TABLE_ID AS RELATIONSHIP_ID#(lf)FROM $SYSTEM.DISCOVER_STORAGE_TABLE_COLUMN_SEGMENTS#(lf)WHERE LEFT ( TABLE_ID, 2 ) = 'R$'"])
+				in
+				    Source
+
+	annotation PBI_QueryRelationships = {"columnCount":3,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/VA_Relationship Size/Source.{TABLE_NAME,0}","Section1/VA_Relationship Size/Source.{USED_SIZE,1}","Section1/VA_Relationship Size/Source.{RELATIONSHIP_ID,2}"],"ColumnCount":3,"KeyColumnNames":[],"ColumnIdentities":["Section1/VA_Relationship Size/Source.{TABLE_NAME,0}","Section1/VA_Relationship Size/Source.{USED_SIZE,1}","Section1/VA_Relationship Size/Source.{RELATIONSHIP_ID,2}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

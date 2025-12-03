@@ -1,0 +1,235 @@
+table 'DB Size'
+	isHidden
+	lineageTag: 7374f6f8-b01a-47ac-bafc-8894c564d7c4
+
+	column Cube
+		dataType: string
+		isHidden
+		lineageTag: 154c5f67-1e3c-4a10-a369-d3b745e539e7
+		summarizeBy: none
+		sourceColumn: Cube
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CUBE_NAME
+		dataType: string
+		isHidden
+		lineageTag: 330a850c-1b8b-4dcc-b223-1eca7ecf6a56
+		summarizeBy: none
+		sourceColumn: CUBE_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Table
+		dataType: string
+		isHidden
+		lineageTag: 4aa67faa-8d4e-47e5-a11e-2afa281638d0
+		summarizeBy: none
+		sourceColumn: Table
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Partition
+		dataType: string
+		isHidden
+		lineageTag: b06ed8e9-50fe-41c2-82bd-7db57dfdb603
+		summarizeBy: none
+		sourceColumn: Partition
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TableId
+		dataType: string
+		isHidden
+		lineageTag: 416a7c48-3576-4e84-8254-29a76ddebe2a
+		summarizeBy: none
+		sourceColumn: TableId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ColumnId
+		dataType: string
+		isHidden
+		lineageTag: c0a31a59-9e85-45ed-9b59-7b3617b057ab
+		summarizeBy: none
+		sourceColumn: ColumnId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SegmentNr
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2d616adf-3922-4db4-94e8-aa51b7ad3366
+		summarizeBy: sum
+		sourceColumn: SegmentNr
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TablePartitionNr
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0d01ae8e-92d9-4948-9619-70c23d19ef20
+		summarizeBy: sum
+		sourceColumn: TablePartitionNr
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column RecordCount
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9ad6915c-22fd-4e20-a01e-7b6c2f7f04fc
+		summarizeBy: sum
+		sourceColumn: RecordCount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AllocatedSize
+		dataType: double
+		isHidden
+		lineageTag: a3e05de4-4041-4759-a848-d8932c420e5a
+		summarizeBy: sum
+		sourceColumn: AllocatedSize
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column UsedSize
+		dataType: double
+		isHidden
+		lineageTag: 7431f782-75f0-496e-8af5-f1354a652c36
+		summarizeBy: sum
+		sourceColumn: UsedSize
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CompressionType
+		dataType: string
+		isHidden
+		lineageTag: 48345286-fa3e-4734-b1c1-81b922e1f47c
+		summarizeBy: none
+		sourceColumn: CompressionType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column BitsCount
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4be5ca78-38cd-4db4-b6aa-1ca05eac611c
+		summarizeBy: sum
+		sourceColumn: BitsCount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column BookmarkBits
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d37d154b-377b-4062-805e-8b7c80c36631
+		summarizeBy: sum
+		sourceColumn: BookmarkBits
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column VertiPaqState
+		dataType: string
+		isHidden
+		lineageTag: b34c2512-0c02-4520-ae57-ddcab3572207
+		summarizeBy: none
+		sourceColumn: VertiPaqState
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISPAGEABLE
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 23164ebc-6725-4f36-b592-4f546bdb2137
+		summarizeBy: none
+		sourceColumn: ISPAGEABLE
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISRESIDENT
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4eeb43c6-c87b-4892-b7bb-4f89f5affaad
+		summarizeBy: none
+		sourceColumn: ISRESIDENT
+
+		annotation SummarizationSetBy = Automatic
+
+	column TEMPERATURE
+		dataType: double
+		lineageTag: 674cedf9-c9ec-4bd5-bdca-e860a00cef35
+		summarizeBy: sum
+		sourceColumn: TEMPERATURE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LAST_ACCESSED
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 224bd091-1925-4fa2-a289-f7c1fd9e2772
+		summarizeBy: none
+		sourceColumn: LAST_ACCESSED
+
+		variation Variation
+			isDefault
+			relationship: fd9b3949-5e41-497a-8db7-ce0b5c3b3d7b
+			defaultHierarchy: LocalDateTable_818152e6-84d0-41e7-b245-823c6d794360.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DB Size-b90d18bc-ebbd-47ae-bb80-4477cb999d66' = m
+		mode: import
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="select * from $system.DISCOVER_STORAGE_TABLE_COLUMN_SEGMENTS"]),
+				      #"Renamed Columns" = Table.RenameColumns(Source,{{"DATABASE_NAME", "Cube"}, {"MEASURE_GROUP_NAME", "Table"}, {"PARTITION_NAME", "Partition"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"DIMENSION_NAME"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns",{{"TABLE_ID", "TableId"}, {"COLUMN_ID", "ColumnId"}, {"SEGMENT_NUMBER", "SegmentNr"}, {"TABLE_PARTITION_NUMBER", "TablePartitionNr"}, {"RECORDS_COUNT", "RecordCount"}, {"ALLOCATED_SIZE", "AllocatedSize"}, {"USED_SIZE", "UsedSize"}, {"COMPRESSION_TYPE", "CompressionType"}, {"BITS_COUNT", "BitsCount"}, {"BOOKMARK_BITS_COUNT", "BookmarkBits"}, {"VERTIPAQ_STATE", "VertiPaqState"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_QueryRelationships = {"columnCount":15,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/DB Size/Source.{DATABASE_NAME,0}","Section1/DB Size/Source.{CUBE_NAME,1}","Section1/DB Size/Source.{MEASURE_GROUP_NAME,2}","Section1/DB Size/Source.{PARTITION_NAME,3}","Section1/DB Size/Source.{TABLE_ID,5}","Section1/DB Size/Source.{COLUMN_ID,6}","Section1/DB Size/Source.{SEGMENT_NUMBER,7}","Section1/DB Size/Source.{TABLE_PARTITION_NUMBER,8}","Section1/DB Size/Source.{RECORDS_COUNT,9}","Section1/DB Size/Source.{ALLOCATED_SIZE,10}","Section1/DB Size/Source.{USED_SIZE,11}","Section1/DB Size/Source.{COMPRESSION_TYPE,12}","Section1/DB Size/Source.{BITS_COUNT,13}","Section1/DB Size/Source.{BOOKMARK_BITS_COUNT,14}","Section1/DB Size/Source.{VERTIPAQ_STATE,15}"],"ColumnCount":15,"KeyColumnNames":[],"ColumnIdentities":["Section1/DB Size/Source.{DATABASE_NAME,0}","Section1/DB Size/Source.{CUBE_NAME,1}","Section1/DB Size/Source.{MEASURE_GROUP_NAME,2}","Section1/DB Size/Source.{PARTITION_NAME,3}","Section1/DB Size/Source.{TABLE_ID,5}","Section1/DB Size/Source.{COLUMN_ID,6}","Section1/DB Size/Source.{SEGMENT_NUMBER,7}","Section1/DB Size/Source.{TABLE_PARTITION_NUMBER,8}","Section1/DB Size/Source.{RECORDS_COUNT,9}","Section1/DB Size/Source.{ALLOCATED_SIZE,10}","Section1/DB Size/Source.{USED_SIZE,11}","Section1/DB Size/Source.{COMPRESSION_TYPE,12}","Section1/DB Size/Source.{BITS_COUNT,13}","Section1/DB Size/Source.{BOOKMARK_BITS_COUNT,14}","Section1/DB Size/Source.{VERTIPAQ_STATE,15}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,50 @@
+table 'VA_User Hierarchies'
+	lineageTag: 466714c6-e769-4d8a-b758-e32551193f1b
+
+	column TABLE_NAME
+		dataType: string
+		lineageTag: e62909a3-bb25-4df4-9e6f-c1c3f34a643d
+		summarizeBy: none
+		sourceColumn: TABLE_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column STRUCTURE_NAME
+		dataType: string
+		lineageTag: 86000eb5-4473-4efd-a173-7d7e1aa549fe
+		summarizeBy: none
+		sourceColumn: STRUCTURE_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column USED_SIZE
+		dataType: double
+		lineageTag: 9c165823-8acf-4e93-9b4b-cfce9540928f
+		summarizeBy: sum
+		sourceColumn: USED_SIZE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column HIERARCHY_ID
+		dataType: string
+		lineageTag: 5f806326-300b-4e27-b895-e32d4ad7a17f
+		summarizeBy: none
+		sourceColumn: HIERARCHY_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'VA_User Hierarchies-8d9f1995-0873-4396-9ac2-5693dddb833b' = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT #(lf)    DIMENSION_NAME AS TABLE_NAME, #(lf)    COLUMN_ID AS STRUCTURE_NAME,#(lf)    USED_SIZE,#(lf)    TABLE_ID AS HIERARCHY_ID#(lf)FROM $SYSTEM.DISCOVER_STORAGE_TABLE_COLUMN_SEGMENTS#(lf)WHERE LEFT ( TABLE_ID, 2 ) = 'U$'"])
+				in
+				    Source
+
+	annotation PBI_QueryRelationships = {"columnCount":4,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/VA_User Hierarchies/Source.{TABLE_NAME,0}","Section1/VA_User Hierarchies/Source.{STRUCTURE_NAME,1}","Section1/VA_User Hierarchies/Source.{USED_SIZE,2}","Section1/VA_User Hierarchies/Source.{HIERARCHY_ID,3}"],"ColumnCount":4,"KeyColumnNames":[],"ColumnIdentities":["Section1/VA_User Hierarchies/Source.{TABLE_NAME,0}","Section1/VA_User Hierarchies/Source.{STRUCTURE_NAME,1}","Section1/VA_User Hierarchies/Source.{USED_SIZE,2}","Section1/VA_User Hierarchies/Source.{HIERARCHY_ID,3}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

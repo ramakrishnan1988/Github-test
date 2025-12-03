@@ -1,0 +1,217 @@
+table VA_Relationships
+	lineageTag: a1808b71-ae5e-4913-aa46-b2a0f7eab1f9
+
+	column RelationshipID
+		dataType: double
+		isHidden
+		lineageTag: ac73fcbb-c4a5-46ab-85ad-cb75d9298bcb
+		summarizeBy: count
+		sourceColumn: RelationshipID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FromTableID
+		dataType: double
+		isHidden
+		lineageTag: fc876a78-cf87-4f95-8509-25ce7bc6c113
+		summarizeBy: count
+		sourceColumn: FromTableID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FromColumnID
+		dataType: double
+		isHidden
+		lineageTag: eaaea1a4-34ce-41ab-a6b1-e4ec36ecfd62
+		summarizeBy: count
+		sourceColumn: FromColumnID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FromCardinalityType
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 843ee87d-42b7-4a78-b787-736bde6c59e4
+		summarizeBy: sum
+		sourceColumn: FromCardinalityType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ToTableID
+		dataType: double
+		isHidden
+		lineageTag: 99bf2275-4909-4921-bb31-9a90664d17c9
+		summarizeBy: count
+		sourceColumn: ToTableID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ToColumnID
+		dataType: double
+		isHidden
+		lineageTag: 2adfe8d0-a75b-4129-88d8-9fde43abbb3c
+		summarizeBy: count
+		sourceColumn: ToColumnID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ToCardinalityType
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 91065efd-a8b9-492a-a06f-e7fa9a1ac84b
+		summarizeBy: sum
+		sourceColumn: ToCardinalityType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c6e1a9ab-67d9-4269-af0a-6a8ca31bb73c
+		summarizeBy: none
+		sourceColumn: Active
+
+		annotation SummarizationSetBy = Automatic
+
+	column CrossFilteringBehavior
+		dataType: int64
+		formatString: 0
+		lineageTag: c28accd6-5a41-4530-bd18-f32bda7e5289
+		summarizeBy: sum
+		sourceColumn: CrossFilteringBehavior
+
+		annotation SummarizationSetBy = Automatic
+
+	column JoinOnDateBehavior
+		dataType: int64
+		formatString: 0
+		lineageTag: b33bce01-58ac-46cf-8b00-86795ee8ffee
+		summarizeBy: sum
+		sourceColumn: JoinOnDateBehavior
+
+		annotation SummarizationSetBy = Automatic
+
+	column RelyOnReferentialIntegrity
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0b167fd3-95df-456e-981b-9a0aa31b0d3a
+		summarizeBy: none
+		sourceColumn: RelyOnReferentialIntegrity
+
+		annotation SummarizationSetBy = Automatic
+
+	column SecurityFilteringBehavior
+		dataType: int64
+		formatString: 0
+		lineageTag: ffe1bd71-8764-4cee-b0d8-df01b5dce41d
+		summarizeBy: sum
+		sourceColumn: SecurityFilteringBehavior
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d1bdd711-364e-434d-a32f-068295f50bf3
+		summarizeBy: sum
+		sourceColumn: State
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FromTable = LOOKUPVALUE ( 'VA_Tables metadata'[Table], 'VA_Tables metadata'[TableID], 'VA_Relationships'[FromTableID] )
+		lineageTag: e28eaf49-e8a8-4b8b-9bb6-737efbca17d5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column FromColumn = LOOKUPVALUE ( 'VA_columns metadata'[Column], 'VA_columns metadata'[ColumnID], 'VA_Relationships'[FromColumnID] )
+		lineageTag: 1909c0e0-d452-4390-b0dd-212f87e3476b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column ToTable = LOOKUPVALUE ( 'VA_Tables metadata'[Table], 'VA_Tables metadata'[TableID], 'VA_Relationships'[ToTableID] )
+		lineageTag: eb5c9c2a-5ae2-46d9-b48b-8d37f4538eb9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column ToColumn = LOOKUPVALUE ( 'VA_columns metadata'[Column], 'VA_columns metadata'[ColumnID], 'VA_Relationships'[ToColumnID] )
+		lineageTag: 561c1aa0-c7dc-4620-93fb-369a83918d2f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Size = LOOKUPVALUE( 'VA_Relationship Size'[USED_SIZE], 'VA_Relationship Size'[RelationshipID], VA_Relationships[RelationshipID], 'VA_Relationship Size'[TABLE_NAME], VA_Relationships[FromTable] )
+		isHidden
+		lineageTag: 4fdc9c36-b553-4cfc-9487-5abe8fa796c3
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'From Cardinality' = LOOKUPVALUE ( 'VA_Columns'[COLUMN_CARDINALITY], 'VA_Columns'[TABLE_NAME], VA_Relationships[FromTable], 'VA_Columns'[COLUMN_NAME], VA_Relationships[FromColumn] )
+		isHidden
+		formatString: 0
+		lineageTag: df2d6be0-5ec6-4c09-ae3f-8761456d0c14
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Cardinality' = LOOKUPVALUE ( 'va_Columns'[COLUMN_CARDINALITY], 'va_Columns'[TABLE_NAME], va_Relationships[ToTable], 'va_Columns'[COLUMN_NAME], va_Relationships[ToColumn] )
+		isHidden
+		formatString: 0
+		lineageTag: edb8bc86-f490-47a0-8dc3-5145c9e56e30
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Relationship = "'" & va_Relationships[FromTable] & "'[" & VA_Relationships[FromColumn] & "] --------->>> '" & va_Relationships[ToTable] & "'[" & va_Relationships[ToColumn] &"]" & " (" & VA_Relationships[Active] & ")"
+		lineageTag: d79c2dbf-68aa-4a49-8e5a-61c0849d89ed
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition VA_Relationships-c2416060-67d4-4c20-8bef-a03753d6f77f = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT    #(lf)    [ID] AS [RelationshipID],#(lf)    [FromTableID],#(lf)    [FromColumnID],#(lf)    [FromCardinality] AS [FromCardinalityType],#(lf)    [ToTableID],#(lf)    [ToColumnID],#(lf)    [ToCardinality] AS [ToCardinalityType],#(lf)    [IsActive] AS [Active],#(lf)    [CrossFilteringBehavior],#(lf)    [JoinOnDateBehavior],#(lf)    [RelyOnReferentialIntegrity],#(lf)    [SecurityFilteringBehavior],#(lf)    [State]#(lf)FROM $SYSTEM.TMSCHEMA_RELATIONSHIPS"])
+				in
+				    Source
+
+	annotation PBI_QueryRelationships = {"columnCount":13,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/VA_Relationships/Source.{RelationshipID,0}","Section1/VA_Relationships/Source.{FromTableID,1}","Section1/VA_Relationships/Source.{FromColumnID,2}","Section1/VA_Relationships/Source.{FromCardinalityType,3}","Section1/VA_Relationships/Source.{ToTableID,4}","Section1/VA_Relationships/Source.{ToColumnID,5}","Section1/VA_Relationships/Source.{ToCardinalityType,6}","Section1/VA_Relationships/Source.{Active,7}","Section1/VA_Relationships/Source.{CrossFilteringBehavior,8}","Section1/VA_Relationships/Source.{JoinOnDateBehavior,9}","Section1/VA_Relationships/Source.{RelyOnReferentialIntegrity,10}","Section1/VA_Relationships/Source.{SecurityFilteringBehavior,11}","Section1/VA_Relationships/Source.{State,12}"],"ColumnCount":13,"KeyColumnNames":[],"ColumnIdentities":["Section1/VA_Relationships/Source.{RelationshipID,0}","Section1/VA_Relationships/Source.{FromTableID,1}","Section1/VA_Relationships/Source.{FromColumnID,2}","Section1/VA_Relationships/Source.{FromCardinalityType,3}","Section1/VA_Relationships/Source.{ToTableID,4}","Section1/VA_Relationships/Source.{ToColumnID,5}","Section1/VA_Relationships/Source.{ToCardinalityType,6}","Section1/VA_Relationships/Source.{Active,7}","Section1/VA_Relationships/Source.{CrossFilteringBehavior,8}","Section1/VA_Relationships/Source.{JoinOnDateBehavior,9}","Section1/VA_Relationships/Source.{RelyOnReferentialIntegrity,10}","Section1/VA_Relationships/Source.{SecurityFilteringBehavior,11}","Section1/VA_Relationships/Source.{State,12}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

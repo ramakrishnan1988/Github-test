@@ -1,0 +1,126 @@
+table KPIs
+	lineageTag: f41c959a-3310-448d-9fc5-a3b4a433e121
+
+	measure 'KPI Count' = DISTINCTCOUNT([ID])+0
+		formatString: 0
+		lineageTag: c06a8add-8806-4267-b57a-4a674ffd1a13
+
+	column ID
+		dataType: double
+		lineageTag: a863eeb5-a1b7-48c2-866a-b7427772f04f
+		dataCategory: PostalCode
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column MeasureID
+		dataType: double
+		lineageTag: 6ba17816-a96f-4e4c-9f32-080156ad76a3
+		summarizeBy: none
+		sourceColumn: MeasureID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'KPI Description'
+		dataType: string
+		lineageTag: 7443dddb-134f-459f-8d46-dab3fcb58056
+		summarizeBy: none
+		sourceColumn: KPI Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Target Description'
+		dataType: string
+		lineageTag: ce426e78-1725-41fa-8bf2-b0f3e428b79e
+		summarizeBy: none
+		sourceColumn: Target Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Target Expression'
+		dataType: string
+		lineageTag: f86d9b51-0aff-41c5-8405-c720c1db6bb2
+		summarizeBy: none
+		sourceColumn: Target Expression
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Target Format String'
+		dataType: string
+		lineageTag: 47727517-249b-4241-af6b-cf3a7689ab48
+		summarizeBy: none
+		sourceColumn: Target Format String
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status Graphic'
+		dataType: string
+		lineageTag: 4247e7aa-d31a-4053-800c-afc9079cb8fe
+		summarizeBy: none
+		sourceColumn: Status Graphic
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status Expression'
+		dataType: string
+		lineageTag: 4c8c7747-96fd-488c-9b69-58a0fd879a58
+		summarizeBy: none
+		sourceColumn: Status Expression
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trend Graphic'
+		dataType: string
+		lineageTag: 5ea30774-20ff-4778-aaea-3a58456fec48
+		summarizeBy: none
+		sourceColumn: Trend Graphic
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trend Description'
+		dataType: string
+		lineageTag: 2f7978b7-2125-475d-aad1-ae3e38b7aea5
+		summarizeBy: none
+		sourceColumn: Trend Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trend Expression'
+		dataType: string
+		lineageTag: def30abf-78dd-49de-a8d4-6f5301adccb9
+		summarizeBy: none
+		sourceColumn: Trend Expression
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'KPI Modified Time'
+		dataType: dateTime
+		lineageTag: e9fb5e0b-ac0d-41cd-a17a-467e75c4b5ac
+		summarizeBy: none
+		sourceColumn: KPI Modified Time
+
+		variation Variation
+			isDefault
+			relationship: c1366b75-8db3-46f5-bd05-ff54f0a872bb
+			defaultHierarchy: LocalDateTable_dee79de7-c875-4a04-807d-fbd4c32605f8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition KPIs = m
+		mode: import
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [MeasureID], [Description], [TargetDescription],[TargetExpression], [TargetFormatString],[StatusGraphic], [StatusDescription], [StatusExpression], [TrendGraphic], [TrendDescription], [TrendExpression], [ModifiedTime] from $SYSTEM.TMSCHEMA_KPIS"]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"TargetDescription", "Target Description"}, {"TargetExpression", "Target Expression"}, {"TargetFormatString", "Target Format String"}, {"StatusGraphic", "Status Graphic"}, {"StatusDescription", "Status Expression"}, {"TrendGraphic", "Trend Graphic"}, {"TrendDescription", "Trend Description"}, {"TrendExpression", "Trend Expression"}, {"ModifiedTime", "KPI Modified Time"}, {"Description", "KPI Description"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"Status Expression"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns",{{"StatusExpression", "Status Expression"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_QueryRelationships = {"columnCount":12,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/KPIs/Source.{ID,0}","Section1/KPIs/Source.{MeasureID,1}","Section1/KPIs/Source.{Description,2}","Section1/KPIs/Source.{TargetDescription,3}","Section1/KPIs/Source.{TargetExpression,4}","Section1/KPIs/Source.{TargetFormatString,5}","Section1/KPIs/Source.{StatusGraphic,6}","Section1/KPIs/Source.{StatusExpression,8}","Section1/KPIs/Source.{TrendGraphic,9}","Section1/KPIs/Source.{TrendDescription,10}","Section1/KPIs/Source.{TrendExpression,11}","Section1/KPIs/Source.{ModifiedTime,12}"],"ColumnCount":12,"KeyColumnNames":[],"ColumnIdentities":["Section1/KPIs/Source.{ID,0}","Section1/KPIs/Source.{MeasureID,1}","Section1/KPIs/Source.{Description,2}","Section1/KPIs/Source.{TargetDescription,3}","Section1/KPIs/Source.{TargetExpression,4}","Section1/KPIs/Source.{TargetFormatString,5}","Section1/KPIs/Source.{StatusGraphic,6}","Section1/KPIs/Source.{StatusExpression,8}","Section1/KPIs/Source.{TrendGraphic,9}","Section1/KPIs/Source.{TrendDescription,10}","Section1/KPIs/Source.{TrendExpression,11}","Section1/KPIs/Source.{ModifiedTime,12}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

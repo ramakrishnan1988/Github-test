@@ -1,0 +1,81 @@
+table Roles
+	lineageTag: e6291749-734e-4f9f-a004-b34d21e2ff7a
+
+	measure 'Roles Count' = DISTINCTCOUNT([ID])
+		formatString: 0
+		lineageTag: bd9a5539-e151-498a-b8ad-eb2805fc2374
+
+	column ID
+		dataType: double
+		lineageTag: 7ff1c093-e8fb-4245-8b3a-acfb8359a715
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Model ID'
+		dataType: double
+		lineageTag: 19e4cf88-cd57-4cf0-80af-6064a3bf08ae
+		summarizeBy: count
+		sourceColumn: Model ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Role
+		dataType: string
+		lineageTag: 455daa08-22df-44e6-8544-432364a9ce1e
+		summarizeBy: none
+		sourceColumn: Role
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Role Description'
+		dataType: string
+		lineageTag: 2cd0b34e-6ca7-4ffb-9ab7-69d682dd2d11
+		summarizeBy: none
+		sourceColumn: Role Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Model Permission'
+		dataType: int64
+		lineageTag: 07d0b5bd-0143-43c1-9dd7-fa6483c4d486
+		summarizeBy: sum
+		sourceColumn: Model Permission
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Role Modified Time'
+		dataType: dateTime
+		lineageTag: fb82926e-a56d-49c2-9820-29b5c9e0145f
+		summarizeBy: none
+		sourceColumn: Role Modified Time
+
+		variation Variation
+			isDefault
+			relationship: 8055f03a-c7de-47f1-925d-cf495cf17f01
+			defaultHierarchy: LocalDateTable_8dccb478-cf6b-4fda-afc6-64656d0a0bbe.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Roles = m
+		mode: import
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [ModelID], [Name], [Description], ModelPermission, ModifiedTime from $SYSTEM.TMSCHEMA_ROLES"]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"ModelID", "Model ID"}, {"ModelPermission", "Model Permission"}, {"ModifiedTime", "Role Modified Time"}, {"Name", "Role"}, {"Description", "Role Description"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_QueryRelationships = {"columnCount":6,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Roles/Source.{ID,0}","Section1/Roles/Source.{ModelID,1}","Section1/Roles/Source.{Name,2}","Section1/Roles/Source.{Description,3}","Section1/Roles/Source.{ModelPermission,4}","Section1/Roles/Source.{ModifiedTime,5}"],"ColumnCount":6,"KeyColumnNames":[],"ColumnIdentities":["Section1/Roles/Source.{ID,0}","Section1/Roles/Source.{ModelID,1}","Section1/Roles/Source.{Name,2}","Section1/Roles/Source.{Description,3}","Section1/Roles/Source.{ModelPermission,4}","Section1/Roles/Source.{ModifiedTime,5}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

@@ -1,0 +1,91 @@
+table Catalog
+	lineageTag: b389716c-bb53-4c56-b11f-74d04067d097
+
+	column 'Catalog Name'
+		dataType: string
+		lineageTag: f94f8c23-5d04-4db9-ae44-21c508f509b2
+		summarizeBy: none
+		sourceColumn: Catalog Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Catalog Description'
+		dataType: string
+		lineageTag: d8841f6b-790e-4fb4-a4b3-b477a41554ca
+		summarizeBy: none
+		sourceColumn: Catalog Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Catalog Roles'
+		dataType: string
+		lineageTag: 54144eec-5aa2-45f3-9cc5-7acd0bdd2503
+		summarizeBy: none
+		sourceColumn: Catalog Roles
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Catalog Modified Date'
+		dataType: dateTime
+		lineageTag: 15e2cf61-d3b0-40eb-b64e-5d627030496c
+		summarizeBy: none
+		sourceColumn: Catalog Modified Date
+
+		variation Variation
+			isDefault
+			relationship: cc09e7ee-d372-4e9c-82e3-e4e07f757393
+			defaultHierarchy: LocalDateTable_06da083f-598a-4b1b-b756-21bb1f7d803b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Compatibility Level'
+		dataType: int64
+		lineageTag: a8798072-4a3c-447b-b992-5922049d1003
+		summarizeBy: none
+		sourceColumn: Compatibility Level
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'DB Type ID'
+		dataType: int64
+		lineageTag: f7b4a6da-f793-40e4-8b2a-283cc5565a21
+		summarizeBy: count
+		sourceColumn: DB Type ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Database ID'
+		dataType: string
+		lineageTag: e4b7321f-85be-4bc1-a887-295e7c2df477
+		summarizeBy: none
+		sourceColumn: Database ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Database Type'
+		dataType: string
+		lineageTag: 9bb31872-8088-418b-ae28-3c1f846491f2
+		summarizeBy: none
+		sourceColumn: Database Type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Catalog = m
+		mode: import
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [Catalog_Name], [Description], Roles, [Date_Modified], [Compatibility_Level], [type], [Database_ID]#(lf)from $SYSTEM.DBSCHEMA_CATALOGS WHERE [Catalog_Name] = '" &  #"Model Name" & "'"]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"Catalog_Name", "Catalog Name"}, {"Date_Modified", "Modified Date"}, {"Compatibility_Level", "Compatibility Level"}, {"type", "Type"}, {"Database_ID", "Database ID"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns", "Database Type", each if [Type] = 3 then "SSAS Tabular " else if [Type] = 2 then "SSAS Multidimensional" else if [Type] = 1 then "SQL Server Relational" else "Power BI"),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Added Custom",{{"Description", "Catalog Description"}, {"Roles", "Catalog Roles"}, {"Modified Date", "Catalog Modified Date"}, {"Type", "DB Type ID"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_QueryRelationships = {"columnCount":8,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Catalog/Source.{Catalog_Name,0}","Section1/Catalog/Source.{Description,1}","Section1/Catalog/Source.{Roles,2}","Section1/Catalog/Source.{Date_Modified,3}","Section1/Catalog/Source.{Compatibility_Level,4}","Section1/Catalog/Source.{type,5}","Section1/Catalog/Source.{Database_ID,6}","Section1/Catalog/Added Custom.{Database Type,7}"],"ColumnCount":8,"KeyColumnNames":[],"ColumnIdentities":["Section1/Catalog/Source.{Catalog_Name,0}","Section1/Catalog/Source.{Description,1}","Section1/Catalog/Source.{Roles,2}","Section1/Catalog/Source.{Date_Modified,3}","Section1/Catalog/Source.{Compatibility_Level,4}","Section1/Catalog/Source.{type,5}","Section1/Catalog/Source.{Database_ID,6}","Section1/Catalog/Added Custom.{Database Type,7}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

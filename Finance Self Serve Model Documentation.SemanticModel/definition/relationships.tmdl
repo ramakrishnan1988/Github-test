@@ -1,0 +1,185 @@
+relationship 59399609-2e1c-4dff-bae6-bb6cdf2ed36b
+	fromColumn: 'Table Permissions'.'Table ID'
+	toColumn: Tables.ID
+
+relationship cc69591d-635b-43ac-929a-152fc9abd075
+	fromColumn: 'Table Permissions'.'Role ID'
+	toColumn: Roles.ID
+
+relationship df2e52e9-d252-40dc-8c20-e91f4b974292
+	fromColumn: 'Role Memberships'.'Role ID'
+	toColumn: Roles.ID
+
+relationship 8c5aa7ae-4c76-4ebc-94b6-b4e2ed46bf7b
+	fromColumn: Relationships.'From Column ID'
+	toColumn: Columns.ID
+
+relationship 3810d847-fa33-4a0b-8806-28dc34f575e9
+	fromColumn: Relationships.'To Column ID'
+	toColumn: 'To Column'.ID
+
+relationship 1c845c2f-ac1c-4aeb-aa04-8f360a5b7797
+	fromColumn: 'Hierarchy Levels'.'Table ID'
+	toColumn: Tables.ID
+
+relationship 0e4ca93e-d9c0-4609-861a-6958b2b6e1c6
+	fromColumn: KPIs.MeasureID
+	toColumn: Measure.ID
+
+relationship dd3ffb74-dc6c-4ddf-af11-dcdbbb5cd3f7
+	fromColumn: Columns.'Table ID'
+	toColumn: Tables.ID
+
+relationship ec73e601-b637-4b09-bedb-58c81999f1e9
+	fromColumn: Measure.'Table ID'
+	toColumn: Tables.ID
+
+relationship 0dd2f277-3f5f-459f-b80c-5cddc430e00b
+	fromColumn: 'To Column'.'Table ID'
+	toColumn: 'To Table'.ID
+
+relationship cc09e7ee-d372-4e9c-82e3-e4e07f757393
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Catalog.'Catalog Modified Date'
+	toColumn: LocalDateTable_06da083f-598a-4b1b-b756-21bb1f7d803b.Date
+
+relationship bd602bd4-85ee-4223-a3d4-6bf886e575ad
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Table Permissions'.'Role Modified Time'
+	toColumn: LocalDateTable_22e0d637-044c-4412-b97f-a865f7c00915.Date
+
+relationship 8055f03a-c7de-47f1-925d-cf495cf17f01
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Roles.'Role Modified Time'
+	toColumn: LocalDateTable_8dccb478-cf6b-4fda-afc6-64656d0a0bbe.Date
+
+relationship 8283783c-3c17-481f-929a-fcf8cd9c30e2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Role Memberships'.'Role Member Modified Time'
+	toColumn: LocalDateTable_89cf5bcc-2f5a-4cea-8d92-5186bb7b9598.Date
+
+relationship fe957841-d5a1-489a-a060-768a91079df3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Relationships.'Relationship Modified Time'
+	toColumn: LocalDateTable_8531ca4f-fc01-49da-8c21-3e3ae2949a2d.Date
+
+relationship 131a6026-1a6e-41fe-b0ac-a7598628de7c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Model.'Modified Time'
+	toColumn: LocalDateTable_c5e3479e-e2dc-4604-9df3-b04e8d352b3d.Date
+
+relationship fd6f2e51-14a4-44ca-81eb-ec92cc666a38
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Model.'Structure Modified Time'
+	toColumn: LocalDateTable_991b3f83-9908-4aba-9f67-e5c0f182337d.Date
+
+relationship 3bf95de5-5978-4db1-a6bf-fe7e6a5931ca
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Hierarchy Levels'.'Modified Time'
+	toColumn: LocalDateTable_21cc2207-5c37-4f39-9290-50ef14feece4.Date
+
+relationship c1366b75-8db3-46f5-bd05-ff54f0a872bb
+	joinOnDateBehavior: datePartOnly
+	fromColumn: KPIs.'KPI Modified Time'
+	toColumn: LocalDateTable_dee79de7-c875-4a04-807d-fbd4c32605f8.Date
+
+relationship aaf488b0-2a27-4621-a5c9-15b260426860
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Columns.'Column Modified Time'
+	toColumn: LocalDateTable_5a8794a7-778a-4cc1-9e62-c488749ae2cc.Date
+
+relationship 2743d247-2c36-4fa9-879f-9391af8b49dc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Columns.'Column Structure Modified Time'
+	toColumn: LocalDateTable_11e08cbf-820b-40c5-b6f8-59b3a6b50b4c.Date
+
+relationship 9bd58600-dfbe-468f-abfd-2205ce541ac8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Measure.'Modified Time'
+	toColumn: LocalDateTable_b4e70edb-b3f3-42b4-93a6-3c09c4d99bec.Date
+
+relationship d583adcf-a907-4f2a-b765-44f02146b6e5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Measure.'Structure Modified Time'
+	toColumn: LocalDateTable_6fc9ffa8-4e8a-43cd-a85b-892550b816e0.Date
+
+relationship 1ad12a95-5153-4d4e-9626-a9e922288eb3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'To Column'.'To Column Modified Time'
+	toColumn: LocalDateTable_06f3aa35-9494-4ff5-9e33-a681676a973a.Date
+
+relationship 5c2af054-f488-4bda-ac28-5139bda7e303
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'To Column'.'To Column Structure Modified Time'
+	toColumn: LocalDateTable_03a6bf26-4f31-4d07-b4d4-8762e84a3384.Date
+
+relationship 8282f9da-9cbe-4459-928c-f3d5fd256a83
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Perspectives.'Perspective ModifiedTime'
+	toColumn: LocalDateTable_edcf82a5-8def-424b-95a6-17da66e43adf.Date
+
+relationship 3cddba2e-87eb-417d-9be1-7ffd7b362085
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Table Sources'.'Table Source Modified Time'
+	toColumn: LocalDateTable_d6c19757-fc93-47b1-8d41-3137f6d86c6a.Date
+
+relationship 07277348-49f6-43a7-ac0f-050e6026ae77
+	fromColumn: 'Table Sources'.TableID
+	toColumn: Tables.ID
+
+relationship 49b1cf59-5acf-4214-8cb4-66cbd2cc58a3
+	fromColumn: VA_columns.TABLE_NAME
+	toColumn: VA_tables.TABLE_NAME
+
+relationship 79da0769-c4e6-4570-8105-fcadc754cdd0
+	fromColumn: 'VA_User Hierarchies'.TABLE_NAME
+	toColumn: VA_tables.TABLE_NAME
+
+relationship 71637505-3ccc-4744-b3b8-57fd385b05db
+	fromColumn: 'VA_columns metadata'.TableID
+	toColumn: 'VA_Tables metadata'.TableID
+
+relationship b232061c-a506-4e7a-90d4-053d54c36c76
+	fromColumn: 'VA_Measure Expressions'.TableID
+	toColumn: 'VA_Tables metadata'.TableID
+
+relationship 1e06f87a-19b3-4cc9-86f8-9dc880c1d259
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'VA_columns hierarchies'.ColumnKey
+	toColumn: VA_columns.ColumnKey
+
+relationship a5e6e948-cade-4601-8b4a-fd7bb193a61a
+	fromColumn: VA_Relationships.FromTable
+	toColumn: VA_tables.TABLE_NAME
+
+relationship ec404e7c-5ac7-4291-95cc-ca8eb623ac4b
+	fromColumn: VA_columns.ColumnKey
+	toColumn: 'VA_Columns Cardinality'.ColumnKey
+
+relationship fd2a205a-ac88-4da7-a034-9c23dfca8f65
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'VA_column segments'.ColumnKey
+	toColumn: VA_columns.ColumnKey
+
+relationship b384265c-c195-42c4-9df0-d33a256f4829
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Data Sources'.'Modified Time'
+	toColumn: LocalDateTable_a1c4a5de-8f81-4240-b17f-f32a4199bfa4.Date
+
+relationship fd9b3949-5e41-497a-8db7-ce0b5c3b3d7b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DB Size'.LAST_ACCESSED
+	toColumn: LocalDateTable_818152e6-84d0-41e7-b245-823c6d794360.Date
+
+relationship AutoDetected_8240400d-4ca7-42ff-aef4-21306ddfd2fc
+	fromColumn: 'Calculation Groups'.TableName
+	toColumn: VA_tables.TABLE_NAME
+
+relationship AutoDetected_299d1c75-50de-431c-9814-b11173b8d5aa
+	fromColumn: 'Calculation Groups'.TableName
+	toColumn: Tables.'Table Name'
+
+relationship AutoDetected_83adeb89-129a-4de1-8f9b-429156e498d5
+	fromColumn: 'Calculation Groups'.TableID
+	toColumn: 'VA_Tables metadata'.TableID
+

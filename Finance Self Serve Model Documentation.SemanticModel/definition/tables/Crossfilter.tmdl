@@ -1,0 +1,36 @@
+table Crossfilter
+	isHidden
+	lineageTag: 9ce7c64d-4845-4624-a9e4-5a1fde92c108
+
+	column 'Crossfiltering Behavior'
+		dataType: string
+		lineageTag: ef0fded4-bd45-44e9-b83c-621dcf60777c
+		summarizeBy: none
+		sourceColumn: Crossfiltering Behavior
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Crossfiltering ID'
+		dataType: int64
+		lineageTag: 6358f2c9-8e1a-4f6e-89cb-ac4a49be4010
+		summarizeBy: count
+		sourceColumn: Crossfiltering ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Crossfilter = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WCs7MS89JVdJRMlSK1YlWcsrUTcksSk0uyczPS8wBChspxcYCAA==", BinaryEncoding.Base64), Compression.Deflate))),
+				    #"Renamed Columns" = Table.RenameColumns(Source, {{"Column1", "Crossfiltering Behavior"}, {"Column2", "Crossfiltering ID"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns", {{"Crossfiltering Behavior", type text}, {"Crossfiltering ID", Int64.Type}})
+				 in
+				    #"Changed Type"
+
+	annotation PBI_QueryRelationships = {"columnCount":2,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Crossfilter/Changed Type.{Crossfiltering Behavior,0}","Section1/Crossfilter/Changed Type.{Crossfiltering ID,1}"],"ColumnCount":2,"KeyColumnNames":[],"ColumnIdentities":["Section1/Crossfilter/Changed Type.{Crossfiltering Behavior,0}","Section1/Crossfilter/Changed Type.{Crossfiltering ID,1}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,154 @@
+table Measure
+	lineageTag: 909e43a2-e496-48af-9bbb-a586d8af589c
+
+	measure 'Measure Count' = DISTINCTCOUNT([ID])
+		formatString: 0
+		lineageTag: e446fb22-5d6e-401b-ba1e-8f2377533652
+
+	column ID
+		dataType: double
+		lineageTag: 1949c9ce-6ae7-4207-9a72-e519d8dd75ae
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Table ID'
+		dataType: double
+		lineageTag: 4f276fa9-41e7-4445-8fc8-4d7338c3f1d0
+		summarizeBy: none
+		sourceColumn: Table ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Measure Name'
+		dataType: string
+		lineageTag: 8a618574-6bd3-4125-8f29-6921f2d78e07
+		summarizeBy: none
+		sourceColumn: Measure Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Measure Description'
+		dataType: string
+		lineageTag: ad94b837-65e1-44eb-9be5-254c83cfe565
+		summarizeBy: none
+		sourceColumn: Measure Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataType
+		dataType: int64
+		lineageTag: c61c9d87-52da-491f-bd8c-11a3fb703cc4
+		summarizeBy: sum
+		sourceColumn: DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Measure Expression'
+		dataType: string
+		lineageTag: 8e6e99a6-5fb9-45d1-ac5b-b79a27a3b0d4
+		summarizeBy: none
+		sourceColumn: Measure Expression
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Format String'
+		dataType: string
+		lineageTag: a726a5f9-ca98-4715-aa89-d415b08e56fc
+		summarizeBy: none
+		sourceColumn: Format String
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Measure Is Hidden'
+		dataType: boolean
+		lineageTag: e0a26dbb-3631-41e9-8777-475748a206ff
+		summarizeBy: none
+		sourceColumn: Measure Is Hidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Modified Time'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8e0be162-6a7e-4fab-8e8d-3da14c481d16
+		summarizeBy: none
+		sourceColumn: Modified Time
+
+		variation Variation
+			isDefault
+			relationship: 9bd58600-dfbe-468f-abfd-2205ce541ac8
+			defaultHierarchy: LocalDateTable_b4e70edb-b3f3-42b4-93a6-3c09c4d99bec.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Structure Modified Time'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5b68a732-fee8-400b-9d52-38c9dd06e652
+		summarizeBy: none
+		sourceColumn: Structure Modified Time
+
+		variation Variation
+			isDefault
+			relationship: d583adcf-a907-4f2a-b765-44f02146b6e5
+			defaultHierarchy: LocalDateTable_6fc9ffa8-4e8a-43cd-a85b-892550b816e0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'KPI ID'
+		dataType: double
+		lineageTag: 68ae16fc-4552-400e-82bc-28191ad7e3f6
+		dataCategory: PostalCode
+		summarizeBy: count
+		sourceColumn: KPI ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Measure Data Type' = LOOKUPVALUE('DataTypes'[Data Type],'DataTypes'[DataTypeID], 'Measure'[DataType])
+		lineageTag: d9e035a1-56d9-4936-83be-fa0a62c3bb9e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Simple Measure'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4b96b197-068b-41e0-86a0-92dff7695262
+		summarizeBy: none
+		sourceColumn: Is Simple Measure
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Display Folder'
+		dataType: string
+		lineageTag: e3801218-eb18-4614-99ed-1dd8445601aa
+		summarizeBy: none
+		sourceColumn: Display Folder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure = m
+		mode: import
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [TableID],  [Name], [Description] , [DataType], [Expression], [FormatString], [IsHidden], [ModifiedTime], [StructureModifiedTime], [KPIID], [IsSimpleMeasure], [DisplayFolder] from $SYSTEM.TMSCHEMA_MEASURES"]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"TableID", "Table ID"}, {"IsHidden", "Measure Is Hidden"}, {"ModifiedTime", "Modified Time"}, {"StructureModifiedTime", "Structure Modified Time"}, {"KPIID", "KPI ID"}, {"IsSimpleMeasure", "Is Simple Measure"}, {"DisplayFolder", "Display Folder"}, {"FormatString", "Format String"}, {"Name", "Measure Name"}, {"Description", "Measure Description"}, {"Expression", "Measure Expression"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_QueryRelationships = {"columnCount":13,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Measure/Source.{ID,0}","Section1/Measure/Source.{TableID,1}","Section1/Measure/Source.{Name,2}","Section1/Measure/Source.{Description,3}","Section1/Measure/Source.{DataType,4}","Section1/Measure/Source.{Expression,5}","Section1/Measure/Source.{FormatString,6}","Section1/Measure/Source.{IsHidden,7}","Section1/Measure/Source.{ModifiedTime,8}","Section1/Measure/Source.{StructureModifiedTime,9}","Section1/Measure/Source.{KPIID,10}","Section1/Measure/Source.{IsSimpleMeasure,11}","Section1/Measure/Source.{DisplayFolder,12}"],"ColumnCount":13,"KeyColumnNames":[],"ColumnIdentities":["Section1/Measure/Source.{ID,0}","Section1/Measure/Source.{TableID,1}","Section1/Measure/Source.{Name,2}","Section1/Measure/Source.{Description,3}","Section1/Measure/Source.{DataType,4}","Section1/Measure/Source.{Expression,5}","Section1/Measure/Source.{FormatString,6}","Section1/Measure/Source.{IsHidden,7}","Section1/Measure/Source.{ModifiedTime,8}","Section1/Measure/Source.{StructureModifiedTime,9}","Section1/Measure/Source.{KPIID,10}","Section1/Measure/Source.{IsSimpleMeasure,11}","Section1/Measure/Source.{DisplayFolder,12}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

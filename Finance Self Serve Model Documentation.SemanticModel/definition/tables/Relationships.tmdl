@@ -1,0 +1,157 @@
+table Relationships
+	lineageTag: c24c4409-32ac-4e42-86c7-4cfd36a52643
+
+	measure 'Relationship Count' = DISTINCTCOUNT([ID])
+		lineageTag: b13bda28-49a3-4fbd-90d9-ef150dd89bba
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ID
+		dataType: string
+		lineageTag: 37b859d4-50ae-47ed-aa54-7ead1d000873
+		summarizeBy: none
+		sourceColumn: ID
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Model ID'
+		dataType: double
+		lineageTag: c287c040-2a39-4477-9bac-fa015d6c3cb3
+		summarizeBy: count
+		sourceColumn: Model ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Relationship Is Active'
+		dataType: boolean
+		lineageTag: d910fe40-2523-4203-9b7a-c84e4f627d9f
+		summarizeBy: none
+		sourceColumn: Relationship Is Active
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Relationship Type'
+		dataType: int64
+		lineageTag: 09490388-4f37-40e8-9437-53d64e38370b
+		summarizeBy: sum
+		sourceColumn: Relationship Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Crossfiltering Behavior'
+		dataType: int64
+		lineageTag: 4d347fd5-0a6a-435a-bfd8-21908791b138
+		summarizeBy: sum
+		sourceColumn: Crossfiltering Behavior
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'From Table ID'
+		dataType: double
+		lineageTag: de37c30e-c59d-403b-86a1-5d4769232e68
+		summarizeBy: count
+		sourceColumn: From Table ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'From Column ID'
+		dataType: double
+		lineageTag: 33eb0010-db87-434f-892f-cc14affa17dd
+		summarizeBy: none
+		sourceColumn: From Column ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'From Cardinality ID'
+		dataType: int64
+		lineageTag: 6deaffe8-8e4f-41d2-bb1f-4b2e5ed0b04d
+		summarizeBy: count
+		sourceColumn: From Cardinality ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Table ID'
+		dataType: double
+		lineageTag: 50cfcc5b-daa2-479a-a2aa-08badd4f275e
+		summarizeBy: count
+		sourceColumn: To Table ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Crossfilter Behavior' = LOOKUPVALUE('Crossfilter'[Crossfiltering Behavior],'Crossfilter'[Crossfiltering ID],'Relationships'[Crossfiltering Behavior])
+		lineageTag: 3542d0b9-fdbf-469f-bb16-eb7a80bad12f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'From Cardinality' = LOOKUPVALUE('Cardinality'[Cardinality],'Cardinality'[Cardinality ID],[From Cardinality ID])
+		lineageTag: bba4af6b-4508-4429-9dc2-eb66c1220333
+		dataCategory: Uncategorized
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation CategorySetBy = User
+
+	column 'To Column ID'
+		dataType: double
+		lineageTag: ca302859-871d-48f8-b222-50b739dd3b1e
+		summarizeBy: none
+		sourceColumn: To Column ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'To Cardinality' = LOOKUPVALUE(Cardinality[Cardinality],'Cardinality'[Cardinality ID],[To Cardinality ID])
+		lineageTag: 7dff82f2-e013-4904-b7e9-3d6ff62a23bb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'To Cardinality ID'
+		dataType: int64
+		lineageTag: fe0391dd-4de2-4fa7-bcbc-265adf47eea3
+		summarizeBy: count
+		sourceColumn: To Cardinality ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Relationship Modified Time'
+		dataType: dateTime
+		lineageTag: 9fcf1ecc-a941-4522-8786-ca5855ad7f28
+		summarizeBy: none
+		sourceColumn: Relationship Modified Time
+
+		variation Variation
+			isDefault
+			relationship: fe957841-d5a1-489a-a060-768a91079df3
+			defaultHierarchy: LocalDateTable_8531ca4f-fc01-49da-8c21-3e3ae2949a2d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Relationships = m
+		mode: import
+		source =
+				let
+				    Source =  AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="Select [ID], [ModelID], [IsActive], [Type], [CrossfilteringBehavior], [FromTableID], [FromColumnID], [FromCardinality], [ToTableID], [ToColumnID], [ToCardinality], [ModifiedTime] from $SYSTEM.TMSCHEMA_RELATIONSHIPS"]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"ModelID", "Model ID"}, {"IsActive", "Relationship Is Active"}, {"CrossfilteringBehavior", "Crossfiltering Behavior"}, {"FromTableID", "From Table ID"}, {"FromColumnID", "From Column ID"}, {"FromCardinality", "From Cardinality ID"}, {"ToTableID", "To Table ID"}, {"ToColumnID", "To Column ID"}, {"ToCardinality", "To Cardinality ID"}, {"ModifiedTime", "Relationship Modified Time"}, {"Type", "Relationship Type"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_QueryRelationships = {"columnCount":12,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Relationships/Source.{ID,0}","Section1/Relationships/Source.{ModelID,1}","Section1/Relationships/Source.{IsActive,2}","Section1/Relationships/Source.{Type,3}","Section1/Relationships/Source.{CrossfilteringBehavior,4}","Section1/Relationships/Source.{FromTableID,5}","Section1/Relationships/Source.{FromColumnID,6}","Section1/Relationships/Source.{FromCardinality,7}","Section1/Relationships/Source.{ToTableID,8}","Section1/Relationships/Source.{ToColumnID,9}","Section1/Relationships/Source.{ToCardinality,10}","Section1/Relationships/Source.{ModifiedTime,11}"],"ColumnCount":12,"KeyColumnNames":[],"ColumnIdentities":["Section1/Relationships/Source.{ID,0}","Section1/Relationships/Source.{ModelID,1}","Section1/Relationships/Source.{IsActive,2}","Section1/Relationships/Source.{Type,3}","Section1/Relationships/Source.{CrossfilteringBehavior,4}","Section1/Relationships/Source.{FromTableID,5}","Section1/Relationships/Source.{FromColumnID,6}","Section1/Relationships/Source.{FromCardinality,7}","Section1/Relationships/Source.{ToTableID,8}","Section1/Relationships/Source.{ToColumnID,9}","Section1/Relationships/Source.{ToCardinality,10}","Section1/Relationships/Source.{ModifiedTime,11}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+

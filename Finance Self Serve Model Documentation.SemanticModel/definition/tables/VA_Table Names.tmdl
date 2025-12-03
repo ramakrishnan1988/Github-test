@@ -1,0 +1,39 @@
+table 'VA_Table Names'
+	isHidden
+	lineageTag: 4cb59f18-6459-48f3-97de-5d4199b2c0b8
+
+	column TABLE_NAME
+		dataType: string
+		isHidden
+		lineageTag: 184a2b6b-3ff0-45c7-8f8d-d334e6c36701
+		summarizeBy: none
+		sourceColumn: TABLE_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TABLE_ID
+		dataType: string
+		isHidden
+		lineageTag: d09b0c01-45bd-475c-b80c-fd07e8cea55e
+		summarizeBy: none
+		sourceColumn: TABLE_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'VA_Table Names-78d99541-b356-494a-accf-e0ddf954fc0a' = m
+		mode: import
+		queryGroup: 'DataModel Analysis'
+		source =
+				let
+				    Source = AnalysisServices.Database(#"AAS Instance", #"Model Name", [Query="SELECT #(lf)    RIGHT ( TABLE_SCHEMA, LEN ( TABLE_SCHEMA ) - 1 ) AS TABLE_NAME, #(lf)    TABLE_NAME AS TABLE_ID#(lf)FROM $SYSTEM.DBSCHEMA_TABLES#(lf)WHERE TABLE_TYPE = 'SYSTEM TABLE'#(lf)  AND LEFT(TABLE_SCHEMA,1)='$'"])
+				in
+				    Source
+
+	annotation PBI_QueryRelationships = {"columnCount":2,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/VA_Table Names/Source.{TABLE_NAME,0}","Section1/VA_Table Names/Source.{TABLE_ID,1}"],"ColumnCount":2,"KeyColumnNames":[],"ColumnIdentities":["Section1/VA_Table Names/Source.{TABLE_NAME,0}","Section1/VA_Table Names/Source.{TABLE_ID,1}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+
